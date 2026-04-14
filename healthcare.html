@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Document Digitization | SecureDocs247</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config & Custom Animations -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            400: '#2dd4bf',
+                            500: '#14b8a6', // Teal core (great for medical/clinical trust)
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        accent: {
+                            400: '#fbbf24', 
+                            500: '#f59e0b', 
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'shine': 'shine 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        shine: {
+                            '0%': { left: '-100%' },
+                            '20%': { left: '100%' },
+                            '100%': { left: '100%' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-600 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- 🚀 Conversion Booster: Top Announcement Bar -->
+    <div class="bg-brand-900 text-brand-50 py-2.5 px-6 text-center text-sm font-medium relative z-[60] flex items-center justify-center gap-2">
+        <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-500"></span>
+        </span>
+        <span class="font-bold text-accent-400">Healthcare Providers:</span> Claim a Free HIPAA Compliance Audit with your Q3 Assessment.
+        <a href="#contact" class="underline hover:text-white transition-colors ml-2 hidden sm:inline-block">Claim Offer &rarr;</a>
+    </div>
+
+    <!-- Sticky Navbar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-slate-200/50 transition-all duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-2 text-2xl font-extrabold font-heading text-slate-900 tracking-tight">
+                <i class="ph-fill ph-shield-plus text-brand-600"></i>
+                SecureDocs247 <span class="text-sm font-semibold text-slate-400 ml-1 hidden sm:inline-block">| Medical</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#advantage" class="text-slate-600 hover:text-brand-600 transition-colors">EHR Integration</a>
+                <a href="#roi" class="text-slate-600 hover:text-brand-600 transition-colors">Clinical ROI</a>
+                <a href="#how-it-works" class="text-slate-600 hover:text-brand-600 transition-colors">Process</a>
+                <a href="#contact" class="group relative overflow-hidden bg-brand-600 text-white px-6 py-2.5 rounded-full hover:bg-brand-700 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-brand-500">
+                    <span class="relative z-10 flex items-center gap-2 font-bold">Get Free Quote <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i></span>
+                </a>
+            </div>
+            <div class="md:hidden text-2xl text-slate-900 cursor-pointer">
+                <i class="ph-bold ph-list"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 🏆 1. IMMERSIVE HERO SECTION (Healthcare Focused) -->
+    <header class="relative pt-24 pb-20 lg:pt-40 lg:pb-32 px-6 overflow-hidden bg-slate-950">
+        <!-- Animated Background Elements -->
+        <div class="absolute top-0 -left-4 w-96 h-96 bg-brand-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob"></div>
+        <div class="absolute top-20 -right-4 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-30"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <!-- Trust Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-sm font-bold mb-8 backdrop-blur-sm">
+                <i class="ph-fill ph-first-aid text-brand-400"></i>
+                The Trusted Partner for Bahamian Hospitals & Clinics
+            </div>
+
+            <!-- Benefit-Driven Headline -->
+            <h1 class="text-5xl md:text-7xl font-extrabold font-heading text-white tracking-tight leading-[1.1] mb-8">
+                Digitize Patient Records On-Site.<br class="hidden md:block" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-400">100% HIPAA Compliant.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                We transform legacy medical charts into searchable digital records seamlessly integrated with your EHR — <strong class="text-white font-semibold border-b border-brand-500">without a single patient file ever leaving your clinic.</strong>
+            </p>
+            
+            <!-- High-Converting CTAs with Friction Reducers -->
+            <div class="flex flex-col items-center gap-4 mb-16">
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
+                    <a href="#contact" class="group relative overflow-hidden w-full sm:w-auto bg-brand-500 hover:bg-brand-400 text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_40px_-10px_rgba(20,184,166,0.6)] transition-all hover:-translate-y-1 flex items-center justify-center gap-2 border border-brand-400">
+                        <span class="relative z-10">Get Your Free Clinical Digitization Plan</span>
+                        <i class="ph-bold ph-arrow-right relative z-10 group-hover:translate-x-1 transition-transform"></i>
+                        <div class="absolute inset-0 w-full h-full bg-white/30 -skew-x-12 -left-full animate-[shine_3s_ease_infinite] z-0"></div>
+                    </a>
+                </div>
+                <!-- Friction Reducer Microcopy -->
+                <div class="flex items-center gap-4 text-sm font-medium text-slate-400 mt-2">
+                    <span class="flex items-center gap-1"><i class="ph-bold ph-file-dashed text-brand-400"></i> BAA Provided</span>
+                    <span class="w-1 h-1 bg-slate-600 rounded-full"></span>
+                    <span class="flex items-center gap-1"><i class="ph-bold ph-lock-key text-brand-400"></i> Strict Confidentiality</span>
+                </div>
+            </div>
+
+            <!-- Social Proof Bar -->
+            <div class="pt-10 border-t border-white/10 max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 text-left">
+                    <div class="flex items-center gap-4 opacity-80">
+                        <div class="flex -space-x-3">
+                            <img class="w-12 h-12 rounded-full border-2 border-slate-950" src="https://i.pravatar.cc/100?img=12" alt="Avatar">
+                            <img class="w-12 h-12 rounded-full border-2 border-slate-950" src="https://i.pravatar.cc/100?img=32" alt="Avatar">
+                            <div class="w-12 h-12 rounded-full border-2 border-slate-950 bg-brand-600 flex items-center justify-center text-lg text-white"><i class="ph-bold ph-heartbeat"></i></div>
+                        </div>
+                        <div class="text-sm font-semibold text-slate-300">
+                            Trusted by 20+<br/>Medical Facilities
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-px h-12 bg-slate-800"></div>
+                    <div class="flex-1">
+                        <div class="flex text-accent-400 text-sm mb-1">
+                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-sm italic">"SecureDocs247 completely transformed our clinic. They scanned 15,000 legacy patient charts directly in our facility, allowing us to turn our massive file room into two new revenue-generating exam rooms."</p>
+                        <p class="text-xs font-bold text-brand-300 mt-2">— Dr. Marcus T., Chief Medical Officer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 🚨 2. DYNAMIC RISK SECTION (Clinical Pain Points) -->
+    <section class="py-24 px-6 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-start">
+            <div class="lg:w-1/3 lg:sticky lg:top-32">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 text-rose-600 text-sm font-bold mb-6 border border-rose-100">
+                    <i class="ph-bold ph-warning-octagon"></i> Clinical Liability
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold font-heading text-slate-900 mb-6 tracking-tight leading-tight">
+                    Legacy Paper Charts Are Compromising Patient Care.
+                </h2>
+                <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                    Physical medical records don't just take up space—they create severe compliance risks, delay treatments, and prevent you from fully transitioning to your modern EHR system.
+                </p>
+                <div class="bg-slate-50 border-l-4 border-rose-600 p-6 rounded-r-2xl">
+                    <p class="text-slate-900 font-bold text-lg mb-1">The Breach Threat</p>
+                    <p class="text-slate-600 text-sm">Putting sensitive patient PHI in the back of a third-party truck to be scanned off-site is a massive HIPAA violation waiting to happen.</p>
+                </div>
+            </div>
+            
+            <!-- Scrolling Right Side Cards -->
+            <div class="lg:w-2/3 grid sm:grid-cols-2 gap-6 w-full">
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-600 mb-6">
+                        <i class="ph-fill ph-file-lock text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Privacy & HIPAA Risks</h3>
+                    <p class="text-slate-600 leading-relaxed">Transporting patient data off-site breaks the chain of custody. We eliminate this by bringing our secure equipment directly to your clinic.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:mt-12">
+                    <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-6">
+                        <i class="ph-fill ph-clock-countdown text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Delayed Patient Care</h3>
+                    <p class="text-slate-600 leading-relaxed">Nurses and administrative staff waste thousands of hours manually pulling, refiling, and searching for lost physical charts.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+                        <i class="ph-fill ph-bed text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Lost Clinical Space</h3>
+                    <p class="text-slate-600 leading-relaxed">Your facility is paying a premium for medical real estate that is currently being used as a dead paper storage room.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:mt-12">
+                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-red-600 mb-6">
+                        <i class="ph-fill ph-cloud-warning text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Disaster Vulnerability</h3>
+                    <p class="text-slate-600 leading-relaxed">A single sprinkler malfunction, fire, or hurricane flood can permanently destroy thousands of irreplaceable patient histories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔐 3. THE SOLUTION (Unique Advantage) -->
+    <section id="advantage" class="py-24 px-6 bg-brand-950 text-white relative overflow-hidden">
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-20 relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900 border border-brand-700 text-brand-300 text-sm font-bold mb-6">
+                    <i class="ph-bold ph-shield-star"></i> The Secure Solution
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold font-heading tracking-tight mb-6">Absolute Control for Healthcare Providers.</h2>
+                <p class="text-xl text-brand-100/80">Unlike traditional scanning services, patient charts never leave your premises. We bring the technology, process, and HIPAA-trained people directly to your clinic.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6 relative z-10">
+                <div class="bg-slate-900/50 backdrop-blur-md p-8 rounded-3xl border border-white/10 hover:border-brand-500/50 transition-colors duration-300">
+                    <i class="ph-fill ph-hospital text-4xl text-brand-400 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-2">Never Leaves Clinic</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">Processed securely within your own four walls. Zero off-site exposure risk to PHI.</p>
+                </div>
+                <div class="bg-slate-900/50 backdrop-blur-md p-8 rounded-3xl border border-white/10 hover:border-brand-500/50 transition-colors duration-300">
+                    <i class="ph-fill ph-file-dashed text-4xl text-brand-400 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-2">BAA & HIPAA Compliant</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">We sign a comprehensive Business Associate Agreement. All staff are highly vetted.</p>
+                </div>
+                <div class="bg-slate-900/50 backdrop-blur-md p-8 rounded-3xl border border-white/10 hover:border-brand-500/50 transition-colors duration-300">
+                    <i class="ph-fill ph-database text-4xl text-brand-400 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-2">Seamless EHR Integration</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">Digitized files are structured, named, and securely uploaded directly into your active EMR.</p>
+                </div>
+                <div class="bg-slate-900/50 backdrop-blur-md p-8 rounded-3xl border border-white/10 hover:border-brand-500/50 transition-colors duration-300">
+                    <i class="ph-fill ph-eye text-4xl text-brand-400 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-2">Full Audit Trail</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">Maintain complete, real-time oversight and an audit-ready chain of custody.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🏝️ BUILT FOR THE BAHAMAS (Healthcare Focus) -->
+    <section class="py-24 px-6 bg-slate-50 border-t border-slate-200 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-bold mb-6">
+                    <i class="ph-bold ph-map-pin"></i> Based in the Bahamas
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold font-heading text-slate-900 mb-6 tracking-tight">Engineered for Caribbean Healthcare.</h2>
+                <p class="text-xl text-slate-600">We understand the unique challenges of practicing medicine across an archipelago. Our on-site digitization solves threats specific to Bahamian clinics.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- 1. Hurricane Threat -->
+                <div class="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl relative group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-rose-50 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-600 mb-8">
+                        <i class="ph-fill ph-wind text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Hurricane-Proof Patient Data</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">A Category 5 storm shouldn't mean the end of your patients' medical histories. Protect decades of clinical notes from catastrophic flooding.</p>
+                </div>
+
+                <!-- 2. Climate & Space -->
+                <div class="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl relative group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 mb-8">
+                        <i class="ph-fill ph-thermometer-hot text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Beat Mold & Reclaim Clinics</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Tropical humidity causes paper charts to mold and degrade. Stop using premium, high-cost island medical real estate as a dead storage room.</p>
+                </div>
+
+                <!-- 3. Inter-Island Business -->
+                <div class="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl relative group overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-8">
+                        <i class="ph-fill ph-boat text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Seamless Inter-Island Care</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Stop putting physical X-rays and charts on flights between Nassau specialists and Family Island clinics. Enable instant, secure, remote file sharing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🔄 4. HIGH-CONTRAST BEFORE/AFTER (Clinical) -->
+    <section class="py-24 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-extrabold font-heading text-slate-900 mb-6 tracking-tight">From Chart Rooms to Care Rooms</h2>
+                <p class="text-lg text-slate-600">See what happens when you stop managing paper and start leveraging clinical data.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-0 rounded-[2rem] overflow-hidden shadow-2xl border border-slate-200">
+                <!-- Before Side -->
+                <div class="flex-1 bg-slate-50 p-10 md:p-16 relative group">
+                    <div class="inline-flex items-center gap-2 text-slate-400 font-bold tracking-widest uppercase text-sm mb-8">
+                        <div class="w-2 h-2 rounded-full bg-rose-500"></div> The Old Clinic
+                    </div>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-8">Physical Chart Rooms</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-center gap-4 text-slate-600 font-medium">
+                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 shrink-0 border border-slate-200"><i class="ph-bold ph-x"></i></div>
+                            Lost charts delaying scheduled procedures
+                        </li>
+                        <li class="flex items-center gap-4 text-slate-600 font-medium">
+                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 shrink-0 border border-slate-200"><i class="ph-bold ph-x"></i></div>
+                            Staff spending hours refiling manila folders
+                        </li>
+                        <li class="flex items-center gap-4 text-slate-600 font-medium">
+                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 shrink-0 border border-slate-200"><i class="ph-bold ph-x"></i></div>
+                            Incomplete adoption of your modern EHR
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Separator Line for Desktop -->
+                <div class="hidden md:flex w-px bg-slate-200 relative items-center justify-center">
+                    <div class="absolute w-12 h-12 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400 shadow-sm z-10">
+                        <i class="ph-bold ph-arrow-right text-xl"></i>
+                    </div>
+                </div>
+
+                <!-- After Side -->
+                <div class="flex-1 bg-slate-900 p-10 md:p-16 relative group overflow-hidden">
+                    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="inline-flex items-center gap-2 text-brand-400 font-bold tracking-widest uppercase text-sm mb-8 relative z-10">
+                        <div class="w-2 h-2 rounded-full bg-brand-400 shadow-[0_0_8px_rgba(20,184,166,1)]"></div> SecureDocs247 Standard
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-8 relative z-10">Fully Digital Practice</h3>
+                    <ul class="space-y-6 relative z-10">
+                        <li class="flex items-center gap-4 text-slate-300 font-medium">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400 shrink-0 border border-brand-500/30"><i class="ph-bold ph-check"></i></div>
+                            Instant search capability within your EHR
+                        </li>
+                        <li class="flex items-center gap-4 text-slate-300 font-medium">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400 shrink-0 border border-brand-500/30"><i class="ph-bold ph-check"></i></div>
+                            Encrypted, HIPAA-compliant cloud backups
+                        </li>
+                        <li class="flex items-center gap-4 text-slate-300 font-medium">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400 shrink-0 border border-brand-500/30"><i class="ph-bold ph-check"></i></div>
+                            File rooms converted into new exam rooms
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 💰 7. ROI SECTION (Clinical Value) -->
+    <section id="roi" class="py-24 px-6 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+            <div class="lg:w-1/2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-bold mb-6">
+                    <i class="ph-bold ph-trend-up"></i> Clinical ROI
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold font-heading text-slate-900 mb-6 tracking-tight">The investment pays for itself in space and time.</h2>
+                <p class="text-lg text-slate-600 mb-10 leading-relaxed">Converting just one 150 sq ft file room into an active exam room generates massive annual revenue. Digitization isn't an expense; it's a clinical upgrade.</p>
+                
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-4xl font-black text-slate-900 mb-1">-80<span class="text-brand-500">%</span></div>
+                        <div class="text-sm font-bold text-slate-500 uppercase tracking-wide">Admin Time Spent</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-4xl font-black text-slate-900 mb-1">+1-3</div>
+                        <div class="text-sm font-bold text-slate-500 uppercase tracking-wide">New Exam Rooms</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-4xl font-black text-slate-900 mb-1">0<span class="text-brand-500"> Risk</span></div>
+                        <div class="text-sm font-bold text-slate-500 uppercase tracking-wide">Transport Breach</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-4xl font-black text-slate-900 mb-1">100<span class="text-brand-500">%</span></div>
+                        <div class="text-sm font-bold text-slate-500 uppercase tracking-wide">HIPAA Audit Ready</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:w-1/2 w-full relative">
+                <!-- Decorative Graphic -->
+                <div class="absolute inset-0 bg-brand-100 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800" alt="Doctor looking at digital tablet" class="rounded-[2.5rem] shadow-xl border-4 border-white transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                
+                <!-- Floating Info Card -->
+                <div class="absolute -bottom-6 -left-6 bg-slate-900 text-white p-6 rounded-2xl shadow-2xl border border-slate-800 animate-float">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400"><i class="ph-bold ph-heartbeat text-2xl"></i></div>
+                        <div>
+                            <p class="font-bold">EHR/EMR Ready</p>
+                            <p class="text-sm text-slate-400">Directly feeds your system</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ⚡ 8. GRAND OFFER SECTION (Healthcare Lead Gen Form) -->
+    <section id="contact" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="bg-slate-950 rounded-[3rem] shadow-2xl relative overflow-hidden flex flex-col lg:flex-row items-center border border-slate-800">
+            <!-- Background Glows -->
+            <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-600 opacity-20 rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
+            
+            <!-- Left Side: Value Proposition -->
+            <div class="lg:w-1/2 p-10 md:p-16 lg:pr-10 relative z-10 text-white">
+                <div class="inline-block bg-brand-500/20 text-brand-300 font-bold px-3 py-1 rounded-full text-sm mb-6 border border-brand-500/30">
+                    <i class="ph-bold ph-calendar-check"></i> Now Booking for Q4
+                </div>
+                <h2 class="text-4xl md:text-5xl font-extrabold font-heading mb-6 tracking-tight leading-tight">Stop Managing Charts.<br/>Start Treating Patients.</h2>
+                <p class="text-lg text-slate-300 mb-10 leading-relaxed">
+                    Fill out the form to get a clear, actionable roadmap to digitize your clinic's records. No cost. Zero obligation. Strictly confidential under HIPAA.
+                </p>
+                
+                <h4 class="font-bold text-white mb-4 uppercase tracking-widest text-sm text-slate-400">What happens next?</h4>
+                <ul class="space-y-5 mb-10 text-md">
+                    <li class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold shrink-0 shadow-md">1</div>
+                        <div>
+                            <strong class="block text-white">We estimate your patient volume</strong>
+                            <span class="text-slate-400 text-sm">We'll review your setup to calculate total chart count.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold shrink-0 shadow-md">2</div>
+                        <div>
+                            <strong class="block text-white">We build an EHR integration plan</strong>
+                            <span class="text-slate-400 text-sm">A custom data-mapping structure based on your current software.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold shrink-0 shadow-md">3</div>
+                        <div>
+                            <strong class="block text-white">You get a fixed-price clinical quote</strong>
+                            <span class="text-slate-400 text-sm">Transparent pricing and a guaranteed completion timeline.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Right Side: Optimized Multi-Step Form -->
+            <div class="lg:w-1/2 w-full p-6 md:p-10 relative z-10">
+                <div class="bg-white p-8 md:p-10 rounded-[2rem] text-slate-900 shadow-2xl relative min-h-[500px] flex flex-col">
+                    <div class="absolute -top-4 -right-4 bg-accent-500 text-white font-bold text-xs uppercase tracking-wider py-2 px-4 rounded-full shadow-lg transform rotate-3 flex items-center gap-1 z-20">
+                        <i class="ph-bold ph-lightning"></i> Fast Response
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold mb-2 font-heading text-slate-900">Request Your Clinical Plan</h3>
+                    
+                    <!-- Progress Bar Header -->
+                    <div class="mb-8 mt-4">
+                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest">
+                            <span>Step <span id="currentStepText">1</span> of 3</span>
+                            <span id="stepTitleText" class="text-brand-600">Clinical Scope</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                            <div id="progressBar" class="bg-brand-500 h-1.5 rounded-full transition-all duration-500 ease-out" style="width: 33.33%"></div>
+                        </div>
+                    </div>
+                    
+                    <form id="multiStepForm" class="space-y-5 flex-1 flex flex-col">
+                        
+                        <!-- STEP 1: The Scope -->
+                        <div id="step1" class="step-content flex-1 animate-fade-in block">
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Estimated Chart Volume</label>
+                                    <div class="relative">
+                                        <select class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all appearance-none cursor-pointer text-slate-700 font-medium">
+                                            <option disabled selected>Select an estimate...</option>
+                                            <option>Hundreds of patient charts</option>
+                                            <option>Thousands of patient charts</option>
+                                            <option>Entire dedicated file room(s)</option>
+                                            <option>I have no idea</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                            <i class="ph-bold ph-caret-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Primary Goal</label>
+                                    <div class="relative">
+                                        <select class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all appearance-none cursor-pointer text-slate-700 font-medium">
+                                            <option disabled selected>What are you trying to achieve?</option>
+                                            <option>Transitioning fully to EHR/EMR</option>
+                                            <option>Reclaiming clinic space/rooms</option>
+                                            <option>Disaster recovery / Backup</option>
+                                            <option>Consolidating multiple offices</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                            <i class="ph-bold ph-caret-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" onclick="showStep(2)" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg py-4 rounded-xl mt-8 shadow-lg transition-all transform hover:-translate-y-0.5 flex justify-center items-center gap-2 group">
+                                Continue to Next Step <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+
+                        <!-- STEP 2: The Organization -->
+                        <div id="step2" class="step-content flex-1 animate-fade-in hidden">
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Facility / Clinic Name</label>
+                                    <input type="text" placeholder="e.g. Nassau Medical Partners" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Facility Type</label>
+                                    <div class="relative">
+                                        <select class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all appearance-none cursor-pointer text-slate-700 font-medium">
+                                            <option disabled selected>Select facility type...</option>
+                                            <option>Hospital / Medical Center</option>
+                                            <option>Private Medical Practice</option>
+                                            <option>Dental / Orthodontic Clinic</option>
+                                            <option>Specialty Surgery Center</option>
+                                            <option>Pharmacy / Laboratory</option>
+                                            <option>Other Healthcare</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                            <i class="ph-bold ph-caret-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 mt-8">
+                                <button type="button" onclick="showStep(1)" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-4 rounded-xl transition-all">Back</button>
+                                <button type="button" onclick="showStep(3)" class="w-2/3 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2 group">
+                                    Almost Done <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: Contact Info -->
+                        <div id="step3" class="step-content flex-1 animate-fade-in hidden">
+                            <div class="space-y-5">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-1.5">First Name <span class="text-rose-500">*</span></label>
+                                        <input type="text" placeholder="Dr. Jane" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-1.5">Last Name <span class="text-rose-500">*</span></label>
+                                        <input type="text" placeholder="Doe" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Work Email <span class="text-rose-500">*</span></label>
+                                    <input type="email" placeholder="jane@clinic.com" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Direct Phone</label>
+                                    <input type="tel" placeholder="+1 (242) 555-0199" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4 mt-8">
+                                <button type="button" onclick="showStep(2)" class="w-[30%] bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-4 rounded-xl transition-all">Back</button>
+                                <button type="submit" class="w-[70%] bg-brand-600 hover:bg-brand-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-brand-500/30 transition-all transform hover:-translate-y-0.5 flex justify-center items-center gap-2 group relative overflow-hidden">
+                                    <span class="relative z-10">Get My Plan</span> <i class="ph-bold ph-check-circle relative z-10"></i>
+                                    <div class="absolute inset-0 w-full h-full bg-white/20 -skew-x-12 -left-full group-hover:animate-[shine_1.5s_ease] z-0"></div>
+                                </button>
+                            </div>
+                            
+                            <!-- Trust signals directly under CTA -->
+                            <div class="flex items-center justify-center gap-4 text-xs font-semibold text-slate-400 mt-4">
+                                <span class="flex items-center gap-1"><i class="ph-fill ph-lock-key text-slate-300"></i> Secure & Private</span>
+                                <span>|</span>
+                                <span class="flex items-center gap-1"><i class="ph-fill ph-file-dashed text-slate-300"></i> BAA Provided</span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ❓ 9. FAQ SECTION (Healthcare Focused) -->
+    <section class="py-24 px-6 max-w-3xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-900 mb-12 font-heading tracking-tight">Questions? We have answers.</h2>
+        
+        <div class="space-y-4">
+            <details class="group bg-white rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors cursor-pointer open:border-brand-500 open:shadow-md" open>
+                <summary class="font-bold text-lg text-slate-900 p-6 flex justify-between items-center focus:outline-none select-none">
+                    Do you sign a Business Associate Agreement (BAA)?
+                    <span class="transition-transform duration-300 group-open:-rotate-180 bg-brand-50 text-brand-600 w-8 h-8 rounded-full flex items-center justify-center">
+                        <i class="ph-bold ph-caret-down"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed pt-2">
+                    Yes. We sign a comprehensive BAA before we touch a single piece of paper. Our entire process, software, and on-site staff strictly adhere to HIPAA and equivalent Bahamian medical privacy standards.
+                </div>
+            </details>
+            
+            <details class="group bg-white rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors cursor-pointer open:border-brand-500 open:shadow-md">
+                <summary class="font-bold text-lg text-slate-900 p-6 flex justify-between items-center focus:outline-none select-none">
+                    Will your team disrupt our clinic's operations?
+                    <span class="transition-transform duration-300 group-open:-rotate-180 bg-slate-50 text-slate-500 w-8 h-8 rounded-full flex items-center justify-center group-open:bg-brand-50 group-open:text-brand-600">
+                        <i class="ph-bold ph-caret-down"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed pt-2">
+                    No. We set up in a designated room (like an unused office or the chart room itself) and operate independently. Your nurses and doctors will not be disrupted, and if you need an active chart while we are scanning, we can immediately retrieve it for you.
+                </div>
+            </details>
+
+            <details class="group bg-white rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors cursor-pointer open:border-brand-500 open:shadow-md">
+                <summary class="font-bold text-lg text-slate-900 p-6 flex justify-between items-center focus:outline-none select-none">
+                    Can the digitized files be imported into our EHR (Epic, Cerner, etc.)?
+                    <span class="transition-transform duration-300 group-open:-rotate-180 bg-slate-50 text-slate-500 w-8 h-8 rounded-full flex items-center justify-center group-open:bg-brand-50 group-open:text-brand-600">
+                        <i class="ph-bold ph-caret-down"></i>
+                    </span>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 leading-relaxed pt-2">
+                    Absolutely. During the planning phase, we map out the exact file formatting, naming conventions, and metadata required by your specific Electronic Health Record system to ensure a seamless upload.
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 text-xl font-extrabold font-heading text-white">
+                <i class="ph-fill ph-shield-plus text-brand-500"></i> SecureDocs247 Medical
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <a href="#" class="hover:text-white transition-colors">HIPAA Compliance</a>
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+            </div>
+            <p class="text-sm text-slate-600">&copy; 2026 SecureDocs247. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Floating CTA -->
+    <div class="md:hidden fixed bottom-6 left-6 right-6 z-50">
+        <a href="#contact" class="w-full bg-brand-600 text-white font-bold py-4 rounded-2xl shadow-2xl shadow-brand-900/50 flex items-center justify-center gap-2 border border-brand-500">
+            Get Clinical Plan <i class="ph-bold ph-arrow-right"></i>
+        </a>
+    </div>
+
+    <!-- Multi-Step Form Logic -->
+    <script>
+        const titles = ["Clinical Scope", "Facility Details", "Contact Information"];
+        
+        function showStep(stepIndex) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            
+            // Show target step
+            const targetStep = document.getElementById('step' + stepIndex);
+            if(targetStep) {
+                targetStep.classList.remove('hidden');
+                targetStep.classList.add('block');
+            }
+            
+            // Update UI
+            document.getElementById('currentStepText').innerText = stepIndex;
+            document.getElementById('stepTitleText').innerText = titles[stepIndex - 1];
+            
+            // Update Progress Bar
+            const progressPercentage = (stepIndex / 3) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+
+        // Prevent default form submission for demonstration
+        document.getElementById('multiStepForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Processing...`;
+            
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerHTML = `<i class="ph-bold ph-check"></i> Request Received!`;
+                btn.classList.replace('bg-brand-600', 'bg-emerald-500');
+                btn.classList.replace('hover:bg-brand-500', 'hover:bg-emerald-400');
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.replace('bg-emerald-500', 'bg-brand-600');
+                    btn.classList.replace('hover:bg-emerald-400', 'hover:bg-brand-500');
+                    showStep(1); // Go back to start
+                    e.target.reset(); // Clear form
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | SecureDocs247</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config & Custom Animations -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            400: '#2dd4bf',
+                            500: '#14b8a6', // Teal core
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        accent: {
+                            400: '#fbbf24', 
+                            500: '#f59e0b', 
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'shine': 'shine 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        shine: {
+                            '0%': { left: '-100%' },
+                            '20%': { left: '100%' },
+                            '100%': { left: '100%' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-600 font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- Sticky Navbar -->
+    <nav class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-slate-200/50 transition-all duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-2 text-2xl font-extrabold font-heading text-slate-900 tracking-tight">
+                <a href="/" class="flex items-center gap-2">
+                    <i class="ph-fill ph-shield-check text-brand-600"></i>
+                    SecureDocs247
+                </a>
+            </div>
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">Solutions</a>
+                <a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">About Us</a>
+                <a href="#faq" class="text-slate-600 hover:text-brand-600 transition-colors">FAQs</a>
+                <a href="#" class="group relative overflow-hidden bg-brand-600 text-white px-6 py-2.5 rounded-full shadow-md border border-brand-500 cursor-default">
+                    <span class="relative z-10 flex items-center gap-2 font-bold">Contact Us</span>
+                </a>
+            </div>
+            <div class="md:hidden text-2xl text-slate-900 cursor-pointer">
+                <i class="ph-bold ph-list"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 🏆 CONTACT HERO & FORM SECTION -->
+    <main class="flex-grow relative pt-32 pb-24 lg:pt-40 lg:pb-32 px-6 overflow-hidden bg-slate-950">
+        <!-- Animated Background Elements -->
+        <div class="absolute top-0 -left-4 w-96 h-96 bg-brand-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob"></div>
+        <div class="absolute top-20 right-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-20"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row gap-16 items-center">
+            
+            <!-- Left Side: Contact Info -->
+            <div class="lg:w-1/2 w-full text-white">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-sm font-bold mb-6 backdrop-blur-sm">
+                    <i class="ph-bold ph-headset text-brand-400"></i> We're here to help
+                </div>
+                <h1 class="text-5xl md:text-6xl font-extrabold font-heading text-white tracking-tight leading-[1.1] mb-6">
+                    Let's secure your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-400">legacy.</span>
+                </h1>
+                <p class="text-lg text-slate-300 mb-12 leading-relaxed max-w-lg">
+                    Whether you have a question about our on-site digitization process, need a custom quote, or want to partner with us, our Nassau-based team is ready.
+                </p>
+
+                <div class="space-y-8">
+                    <!-- Contact Card 1 -->
+                    <div class="flex items-start gap-6 group">
+                        <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-400 shrink-0 group-hover:bg-brand-500/20 group-hover:border-brand-500/30 transition-all">
+                            <i class="ph-fill ph-envelope-simple text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Email Us</h3>
+                            <p class="text-slate-400 text-sm mb-2">For general inquiries and partnerships.</p>
+                            <a href="mailto:hello@securedocs247.com" class="text-brand-300 font-medium hover:text-white transition-colors">hello@securedocs247.com</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Card 2 -->
+                    <div class="flex items-start gap-6 group">
+                        <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-400 shrink-0 group-hover:bg-brand-500/20 group-hover:border-brand-500/30 transition-all">
+                            <i class="ph-fill ph-phone-call text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Call Headquarters</h3>
+                            <p class="text-slate-400 text-sm mb-2">Mon-Fri from 9am to 5pm EST.</p>
+                            <a href="tel:+12425550199" class="text-brand-300 font-medium hover:text-white transition-colors">+1 (242) 555-0199</a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Card 3 -->
+                    <div class="flex items-start gap-6 group">
+                        <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-400 shrink-0 group-hover:bg-brand-500/20 group-hover:border-brand-500/30 transition-all">
+                            <i class="ph-fill ph-map-pin text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 text-white">Visit Us</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                SecureDocs247 Operations Center<br/>
+                                Bay Street, Nassau<br/>
+                                The Bahamas
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Contact Form -->
+            <div class="lg:w-1/2 w-full relative z-10">
+                <div class="bg-white p-8 md:p-10 rounded-[2rem] text-slate-900 shadow-2xl relative">
+                    <div class="absolute -top-4 -right-4 bg-accent-500 text-white font-bold text-xs uppercase tracking-wider py-2 px-4 rounded-full shadow-lg transform rotate-3 flex items-center gap-1 z-20">
+                        <i class="ph-bold ph-lightning"></i> Fast Response
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold mb-2 font-heading text-slate-900">Send us a message</h3>
+                    <p class="text-slate-500 text-sm mb-8">We aim to respond to all inquiries within 24 hours.</p>
+                    
+                    <form id="contactForm" class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">First Name <span class="text-rose-500">*</span></label>
+                                <input type="text" required placeholder="Jane" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">Last Name <span class="text-rose-500">*</span></label>
+                                <input type="text" required placeholder="Doe" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">Work Email <span class="text-rose-500">*</span></label>
+                                <input type="email" required placeholder="jane@company.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">Phone Number</label>
+                                <input type="tel" placeholder="+1 (242) 555-0199" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5">Industry</label>
+                            <div class="relative">
+                                <select class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all appearance-none cursor-pointer text-slate-700 font-medium">
+                                    <option disabled selected>Select your industry...</option>
+                                    <option>Legal / Law Firm</option>
+                                    <option>Healthcare / Medical</option>
+                                    <option>Insurance</option>
+                                    <option>Government / Public Sector</option>
+                                    <option>Education</option>
+                                    <option>Other</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                    <i class="ph-bold ph-caret-down"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5">How can we help? <span class="text-rose-500">*</span></label>
+                            <textarea required rows="4" placeholder="Tell us about your project, volume, or specific compliance needs..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-medium resize-none"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg py-4 rounded-xl mt-6 shadow-lg transition-all transform hover:-translate-y-0.5 flex justify-center items-center gap-2 group relative overflow-hidden">
+                            <span class="relative z-10">Send Message</span> <i class="ph-bold ph-paper-plane-right relative z-10 group-hover:translate-x-1 transition-transform"></i>
+                            <div class="absolute inset-0 w-full h-full bg-white/20 -skew-x-12 -left-full group-hover:animate-[shine_1.5s_ease] z-0"></div>
+                        </button>
+                        
+                        <!-- Trust signals -->
+                        <div class="flex items-center justify-center gap-4 text-xs font-semibold text-slate-400 mt-4">
+                            <span class="flex items-center gap-1"><i class="ph-fill ph-lock-key text-slate-300"></i> Secure Submission</span>
+                            <span>|</span>
+                            <span class="flex items-center gap-1"><i class="ph-fill ph-shield-check text-slate-300"></i> 100% Confidential</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ❓ FAQ / SUPPORT SECTION -->
+    <section id="faq" class="py-24 px-6 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 text-brand-700 text-sm font-bold mb-4">
+                    <i class="ph-bold ph-question"></i> Quick Answers
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold font-heading text-slate-900 tracking-tight">Frequently Asked Questions</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <details class="group bg-white rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors cursor-pointer open:border-brand-500 open:shadow-md" open>
+                    <summary class="font-bold text-lg text-slate-900 p-6 flex justify-between items-center focus:outline-none select-none">
+                        Do you operate outside of Nassau?
+                        <span class="transition-transform duration-300 group-open:-rotate-180 bg-brand-50 text-brand-600 w-8 h-8 rounded-full flex items-center justify-center">
+                            <i class="ph-bold ph-caret-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed pt-2">
+                        Yes. While we are headquartered in Nassau, our specialized mobile digitization teams can deploy to Freeport and across the Family Islands to digitize your records directly on-site at your facility.
+                    </div>
+                </details>
+                
+                <details class="group bg-white rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors cursor-pointer open:border-brand-500 open:shadow-md">
+                    <summary class="font-bold text-lg text-slate-900 p-6 flex justify-between items-center focus:outline-none select-none">
+                        How is pricing structured?
+                        <span class="transition-transform duration-300 group-open:-rotate-180 bg-slate-50 text-slate-500 w-8 h-8 rounded-full flex items-center justify-center group-open:bg-brand-50 group-open:text-brand-600">
+                            <i class="ph-bold ph-caret-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed pt-2">
+                        Our pricing is highly transparent and based entirely on the estimated volume of documents (usually calculated by banker's boxes or filing cabinet drawers), the level of OCR required, and the specific metadata/integration needs of your software systems. We provide a firm, fixed quote before beginning any work.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-2xl border border-slate-200 hover:border-brand-300 transition-colors cursor-pointer open:border-brand-500 open:shadow-md">
+                    <summary class="font-bold text-lg text-slate-900 p-6 flex justify-between items-center focus:outline-none select-none">
+                        Are you hiring?
+                        <span class="transition-transform duration-300 group-open:-rotate-180 bg-slate-50 text-slate-500 w-8 h-8 rounded-full flex items-center justify-center group-open:bg-brand-50 group-open:text-brand-600">
+                            <i class="ph-bold ph-caret-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed pt-2">
+                        We are always looking for highly vetted, detail-oriented professionals to join our on-site deployment teams. If you have experience in document management, compliance, or IT administration, please email your resume to <strong>careers@securedocs247.com</strong>.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 text-xl font-extrabold font-heading text-white">
+                <i class="ph-fill ph-shield-check text-brand-500"></i> SecureDocs247
+            </div>
+            <div class="flex gap-6 text-sm font-medium">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Security Overview</a>
+            </div>
+            <p class="text-sm text-slate-600">&copy; 2026 SecureDocs247. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Form Handling Script -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            // Loading State
+            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Sending...`;
+            btn.classList.add('opacity-90', 'cursor-not-allowed');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Success State
+                btn.innerHTML = `<i class="ph-bold ph-check-circle"></i> Message Sent Successfully!`;
+                btn.classList.replace('bg-slate-900', 'bg-emerald-500');
+                btn.classList.replace('hover:bg-slate-800', 'hover:bg-emerald-400');
+                btn.classList.remove('opacity-90', 'cursor-not-allowed');
+                
+                // Reset form
+                e.target.reset();
+                
+                // Revert button after 4 seconds
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.replace('bg-emerald-500', 'bg-slate-900');
+                    btn.classList.replace('hover:bg-emerald-400', 'hover:bg-slate-800');
+                }, 4000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
