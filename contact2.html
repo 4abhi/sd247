@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="bg-slate-50 text-slate-900 transition-colors duration-500">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | AGB Digital Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0A0F1C',
+                            blue: '#2563EB',
+                            lightBlue: '#EFF6FF',
+                            orange: '#FF5722',
+                            orangeHover: '#E64A19',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 0 3px rgba(0,0,0,0.02)',
+                        'float': '0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 10px rgba(0,0,0,0.03)',
+                        'glow-orange': '0 0 24px rgba(255, 87, 34, 0.3)',
+                        'glow-blue': '0 0 30px rgba(37, 99, 235, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.03em; }
+
+        /* Mesh Backgrounds */
+        .mesh-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 237, 213, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(219, 234, 254, 0.5) 0px, transparent 50%);
+            filter: blur(60px); pointer-events: none; transition: opacity 0.5s;
+        }
+        html.dark .mesh-bg {
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 87, 34, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+        }
+
+        /* Dot Grid */
+        .bg-dot-grid {
+            background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+        html.dark .bg-dot-grid { background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); }
+
+        /* Spotlight Hover */
+        .spotlight-card {
+            position: relative; overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        .spotlight-card::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(37, 99, 235, 0.06), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+        }
+        html.dark .spotlight-card::before {
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.06), transparent 40%);
+        }
+        .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card > * { position: relative; z-index: 10; }
+
+        /* Floating Label Inputs */
+        .input-group { position: relative; width: 100%; }
+        .float-input {
+            width: 100%; padding: 1.5rem 1.25rem 0.5rem 1.25rem; font-size: 1rem; font-weight: 500; border-radius: 1rem; transition: all 0.3s ease;
+        }
+        .float-input:focus { outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(37, 99, 235, 0.1); border-color: #2563EB;}
+        .float-label {
+            position: absolute; left: 1.25rem; top: 1.125rem; font-size: 1rem; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; color: #64748b;
+        }
+        .float-input:focus ~ .float-label, .float-input:not(:placeholder-shown) ~ .float-label {
+            top: 0.5rem; font-size: 0.75rem; font-weight: 600; color: #2563EB;
+        }
+        select.float-input { appearance: none; cursor: pointer; }
+        textarea.float-input { padding-top: 1.75rem; resize: none; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white dark:bg-[#050505] dark:text-slate-50 transition-colors duration-500">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 py-5 border-b border-transparent dark:border-white/5" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors duration-500 hover:opacity-80">
+                AGB<span class="text-brand-blue">.</span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <!-- Links -->
+                <div class="hidden md:flex gap-6 font-semibold text-sm mr-4">
+                    <a href="index.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Home</a>
+                    <a href="services.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Services</a>
+                    <a href="about.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">About Us</a>
+                    <a href="contact.html" class="text-brand-blue dark:text-white transition-colors">Contact</a>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="text-slate-400 hover:text-brand-blue dark:hover:text-brand-orange transition-colors">
+                    <svg id="theme-icon-dark" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-light" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                
+                <a href="index.html#audit" class="group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold text-sm text-white bg-brand-navy dark:bg-white dark:text-brand-navy overflow-hidden transition-all shadow-soft hover:shadow-float">
+                    <span class="relative z-10 transition-colors duration-300">Get Free Audit</span>
+                    <div class="absolute inset-0 bg-brand-blue transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative pt-40 pb-20 lg:pt-48 lg:pb-24 px-6 flex items-center overflow-hidden transition-colors">
+        <div class="mesh-bg"></div>
+        <div class="absolute inset-0 bg-dot-grid z-0 opacity-60 dark:opacity-30 transition-opacity"></div>
+        
+        <div class="max-w-[1000px] mx-auto relative z-10 w-full text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-brand-navy/60 backdrop-blur-sm border border-slate-200/60 dark:border-white/10 text-xs font-bold text-brand-blue dark:text-brand-orange tracking-widest uppercase mb-8 shadow-sm w-max hero-elem transition-colors">
+                Initiate Contact
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-extrabold leading-[1.05] tracking-tight text-brand-navy dark:text-white mb-6 hero-elem transition-colors">
+                Let's Talk <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-navy via-brand-blue to-blue-400 dark:from-white dark:via-brand-blue dark:to-blue-400">Growth.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed hero-elem font-medium transition-colors mb-10">
+                Whether you have a question about our ecosystem or are ready to scale your home service business to the next level, our team is standing by.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. Contact Content -->
+    <section class="py-12 px-6 relative z-10" id="bento-container-contact">
+        <div class="max-w-[1400px] mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            <!-- Left Side: Direct Lines & Info -->
+            <div class="lg:col-span-5 space-y-6 scroll-section">
+                
+                <div class="spotlight-card p-8 md:p-10 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 rounded-[2rem] shadow-soft transition-colors group">
+                    <div class="flex items-center gap-5 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-brand-blue/10 text-brand-blue flex items-center justify-center border border-blue-100 dark:border-brand-blue/20 transition-transform group-hover:scale-110 shrink-0">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-brand-navy dark:text-white transition-colors">Sales & Partnerships</h4>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-1">Ready to build your engine?</p>
+                        </div>
+                    </div>
+                    <a href="mailto:hello@agbdigital.com" class="text-brand-blue dark:text-blue-400 font-bold text-lg hover:underline transition-colors">hello@agbdigital.com</a>
+                </div>
+
+                <div class="spotlight-card p-8 md:p-10 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 rounded-[2rem] shadow-soft transition-colors group">
+                    <div class="flex items-center gap-5 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-brand-orange/10 text-brand-orange flex items-center justify-center border border-orange-100 dark:border-brand-orange/20 transition-transform group-hover:scale-110 shrink-0">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-brand-navy dark:text-white transition-colors">Client Support</h4>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-1">Current partner needing assistance?</p>
+                        </div>
+                    </div>
+                    <a href="mailto:support@agbdigital.com" class="text-brand-orange font-bold text-lg hover:underline transition-colors">support@agbdigital.com</a>
+                </div>
+
+                <div class="spotlight-card p-8 md:p-10 bg-brand-navy dark:bg-[#0A0A0A] border border-brand-blue/30 dark:border-white/10 rounded-[2rem] shadow-float transition-colors group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+                    <div class="relative z-10 flex items-center gap-5 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-blue text-white flex items-center justify-center transition-transform group-hover:scale-110 shadow-glow-blue shrink-0">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white transition-colors">Headquarters</h4>
+                            <p class="text-slate-400 text-sm font-medium mt-1">Global Reach</p>
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-white font-bold text-lg leading-relaxed">Bahamas // USA</p>
+                        <p class="text-slate-400 text-sm font-medium mt-2">Serving elite home service contractors across North America and the Caribbean.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Side: Contact Form -->
+            <div class="lg:col-span-7 w-full scroll-section">
+                <div class="bg-white dark:bg-[#050505] p-10 md:p-14 rounded-[2.5rem] shadow-float relative overflow-hidden transition-colors border border-slate-200 dark:border-white/10">
+                    <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-blue/10 dark:bg-brand-blue/20 rounded-full blur-[100px] pointer-events-none"></div>
+                    
+                    <h3 class="text-3xl font-bold text-brand-navy dark:text-white mb-2 tracking-tight transition-colors relative z-10">Send us a message</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-10 font-medium relative z-10">Fill out the form below and our team will get back to you within 24 hours.</p>
+
+                    <form id="contactForm" class="relative z-10 space-y-6" onsubmit="event.preventDefault(); submitContactForm();">
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <input type="text" id="cName" required class="float-input border border-slate-200 dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                <label for="cName" class="float-label">Full Name</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="cCompany" class="float-input border border-slate-200 dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                <label for="cCompany" class="float-label">Company Name</label>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <input type="email" id="cEmail" required class="float-input border border-slate-200 dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                <label for="cEmail" class="float-label">Email Address</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="tel" id="cPhone" class="float-input border border-slate-200 dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                <label for="cPhone" class="float-label">Phone Number</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <select required id="cInterest" class="float-input border border-slate-200 text-slate-700 dark:text-slate-300 dark:bg-brand-navy dark:border-white/10 transition-colors">
+                                <option value="" disabled selected class="hidden"></option>
+                                <option value="audit">Request Free Audit</option>
+                                <option value="services">General Inquiry about Services</option>
+                                <option value="support">Current Client Support</option>
+                                <option value="partnership">Partnerships</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <label for="cInterest" class="float-label">How can we help?</label>
+                            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+
+                        <div class="input-group h-32">
+                            <textarea id="cMessage" required class="float-input h-full border border-slate-200 dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" "></textarea>
+                            <label for="cMessage" class="float-label">Your Message</label>
+                        </div>
+
+                        <div class="pt-6">
+                            <button type="submit" class="w-full group relative inline-flex items-center justify-center px-8 py-5 font-bold text-lg text-white bg-brand-blue overflow-hidden transition-all rounded-2xl shadow-glow-blue hover:-translate-y-1">
+                                <span class="relative z-10 transition-colors duration-300 flex items-center gap-2">
+                                    Send Message
+                                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </span>
+                                <div class="absolute inset-0 bg-brand-navy transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                            </button>
+                        </div>
+
+                        <!-- Success State Overlay -->
+                        <div id="formSuccess" class="absolute inset-0 bg-white/95 dark:bg-[#050505]/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+                            <div class="w-20 h-20 bg-green-50 dark:bg-green-900/20 text-green-500 rounded-full flex items-center justify-center mb-6 border-[6px] border-green-50/50 dark:border-green-900/30">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h3 class="text-3xl font-extrabold mb-2 text-brand-navy dark:text-white tracking-tight">Message Sent!</h3>
+                            <p class="text-slate-500 dark:text-slate-400 font-medium">We've received your inquiry and will contact you shortly.</p>
+                            <button type="button" onclick="resetContactForm()" class="mt-8 text-brand-blue font-bold hover:underline">Send another message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white dark:bg-[#050505] border-t border-slate-100 dark:border-white/5 relative z-10 transition-colors duration-500 mt-20">
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-3xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors">
+                AGB<span class="text-brand-blue">.</span>
+            </div>
+            <div class="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase flex flex-col md:flex-row gap-4 md:gap-16 text-center md:text-left">
+                <span>&copy; 2026 AGB DIGITAL SOLUTIONS</span>
+                <span>BAHAMAS // USA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Dark Mode Engine ---
+        const html = document.getElementById('html-root');
+        function toggleTheme() { html.classList.toggle('dark'); }
+
+        // --- Lenis Smooth Scrolling ---
+        const lenis = new Lenis({ duration: 1.2, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        // --- Navbar Glass Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.remove('border-transparent', 'py-5');
+            } else {
+                nav.classList.remove('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.add('border-transparent', 'py-5');
+            }
+        });
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(".hero-elem", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "expo.out", delay: 0.1 });
+
+        // Scroll reveals for sections
+        const sections = gsap.utils.toArray('.scroll-section');
+        sections.forEach((section) => {
+            gsap.fromTo(section, 
+                { y: 50, opacity: 0 },
+                { scrollTrigger: { trigger: section, start: "top 85%" }, y: 0, opacity: 1, duration: 1.2, ease: "expo.out" }
+            );
+        });
+
+        // Spotlight Hover Logic
+        document.querySelectorAll("[id^='bento-container']").forEach(container => {
+            container.onmousemove = e => {
+                for(const card of container.getElementsByClassName("spotlight-card")) {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                };
+            }
+        });
+
+        // --- Form Logic ---
+        function submitContactForm() {
+            const form = document.getElementById('contactForm');
+            const successOverlay = document.getElementById('formSuccess');
+            
+            // Check HTML5 validity
+            if(form.checkValidity()) {
+                // Show success overlay
+                successOverlay.style.opacity = '1';
+                successOverlay.style.pointerEvents = 'auto';
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        function resetContactForm() {
+            const form = document.getElementById('contactForm');
+            const successOverlay = document.getElementById('formSuccess');
+            
+            form.reset();
+            successOverlay.style.opacity = '0';
+            successOverlay.style.pointerEvents = 'none';
+        }
+    </script>
+</body>
+</html>
