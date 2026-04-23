@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="bg-slate-50 text-slate-900 transition-colors duration-500">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | AGB Digital Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0A0F1C',
+                            blue: '#2563EB',
+                            lightBlue: '#EFF6FF',
+                            orange: '#FF5722',
+                            orangeHover: '#E64A19',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 0 3px rgba(0,0,0,0.02)',
+                        'float': '0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 10px rgba(0,0,0,0.03)',
+                        'glow-orange': '0 0 24px rgba(255, 87, 34, 0.3)',
+                        'glow-blue': '0 0 30px rgba(37, 99, 235, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.03em; }
+
+        /* Mesh Backgrounds */
+        .mesh-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 237, 213, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(219, 234, 254, 0.5) 0px, transparent 50%);
+            filter: blur(60px); pointer-events: none; transition: opacity 0.5s;
+        }
+        html.dark .mesh-bg {
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 87, 34, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+        }
+
+        /* Dot Grid */
+        .bg-dot-grid {
+            background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+        html.dark .bg-dot-grid { background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); }
+
+        /* Spotlight Hover */
+        .spotlight-card {
+            position: relative; overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        .spotlight-card::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(37, 99, 235, 0.06), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+        }
+        html.dark .spotlight-card::before {
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.06), transparent 40%);
+        }
+        .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card > * { position: relative; z-index: 10; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white dark:bg-[#050505] dark:text-slate-50 transition-colors duration-500">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 py-5 border-b border-transparent dark:border-white/5" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors duration-500 hover:opacity-80">
+                AGB<span class="text-brand-blue">.</span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <!-- Links -->
+                <div class="hidden md:flex gap-6 font-semibold text-sm mr-4">
+                    <a href="index.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Home</a>
+                    <a href="services.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Services</a>
+                    <a href="about.html" class="text-brand-blue dark:text-white transition-colors">About Us</a>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="text-slate-400 hover:text-brand-blue dark:hover:text-brand-orange transition-colors">
+                    <svg id="theme-icon-dark" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-light" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                
+                <a href="index.html#audit" class="group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold text-sm text-white bg-brand-navy dark:bg-white dark:text-brand-navy overflow-hidden transition-all shadow-soft hover:shadow-float">
+                    <span class="relative z-10 transition-colors duration-300">Get Free Audit</span>
+                    <div class="absolute inset-0 bg-brand-blue transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative pt-40 pb-20 lg:pt-56 lg:pb-32 px-6 flex items-center overflow-hidden border-b border-slate-200 dark:border-white/5 transition-colors">
+        <div class="mesh-bg"></div>
+        <div class="absolute inset-0 bg-dot-grid z-0 opacity-60 dark:opacity-30 transition-opacity"></div>
+        
+        <div class="max-w-[1000px] mx-auto relative z-10 w-full text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-brand-navy/60 backdrop-blur-sm border border-slate-200/60 dark:border-white/10 text-xs font-bold text-brand-blue dark:text-brand-orange tracking-widest uppercase mb-8 shadow-sm w-max hero-elem transition-colors">
+                The AGB Manifesto
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-extrabold leading-[1.05] tracking-tight text-brand-navy dark:text-white mb-6 hero-elem transition-colors">
+                Built for the Trades.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-navy via-brand-blue to-blue-400 dark:from-white dark:via-brand-blue dark:to-blue-400">Engineered for Revenue.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed hero-elem font-medium transition-colors mb-10">
+                We don't sell generic marketing services. We build high-performance digital ecosystems specifically designed to capture market share and close high-ticket local jobs.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. The Origin Story -->
+    <section class="py-32 px-6 bg-white dark:bg-[#050505] transition-colors duration-500 relative z-10 overflow-hidden">
+        <div class="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24 scroll-section">
+            
+            <!-- Visual Side -->
+            <div class="lg:w-1/2 w-full relative">
+                <div class="absolute inset-0 bg-brand-blue/10 dark:bg-brand-blue/20 blur-[80px] rounded-full"></div>
+                <div class="bg-slate-50 dark:bg-[#0A0A0A] border border-slate-200 dark:border-white/10 rounded-[2rem] p-10 relative z-10 shadow-float transition-colors overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+                    <div class="relative z-10 space-y-6">
+                        <div class="flex gap-4 items-center mb-8">
+                            <div class="w-12 h-12 bg-red-100 dark:bg-red-500/10 rounded-full flex items-center justify-center text-red-500 line-through decoration-2">AL</div>
+                            <div class="w-12 h-12 bg-red-100 dark:bg-red-500/10 rounded-full flex items-center justify-center text-red-500 line-through decoration-2">HA</div>
+                            <div class="w-12 h-12 bg-red-100 dark:bg-red-500/10 rounded-full flex items-center justify-center text-red-500 line-through decoration-2">Y</div>
+                            <div class="text-sm font-bold text-slate-400">The Old Way</div>
+                        </div>
+                        
+                        <div class="h-px w-full bg-slate-200 dark:bg-white/10"></div>
+                        
+                        <div class="pt-4">
+                            <div class="text-xs font-bold text-brand-blue uppercase tracking-widest mb-4">The AGB Way</div>
+                            <div class="bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/10 p-5 rounded-xl flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
+                                    <div class="font-bold text-slate-800 dark:text-white">100% Exclusive Pipeline</div>
+                                </div>
+                                <div class="text-green-500 font-bold bg-green-50 dark:bg-green-500/10 px-3 py-1 rounded-full text-xs">Active</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Side -->
+            <div class="lg:w-1/2">
+                <h2 class="text-brand-blue text-xs tracking-[0.2em] font-bold mb-4 uppercase">The Problem We Solved</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-brand-navy dark:text-white tracking-tight mb-6 transition-colors">
+                    Contractors are being held hostage.
+                </h3>
+                <div class="space-y-6 text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed transition-colors">
+                    <p>
+                        AGB Digital Solutions was born out of frustration. We looked at the digital marketing landscape for home service businesses and realized the entire model was broken. 
+                    </p>
+                    <p>
+                        Massive lead generation platforms sell the exact same lead to you and five of your competitors, forcing you into a race to the bottom on price. Generic marketing agencies charge exorbitant retainers to build pretty "digital brochures" that generate zero actual revenue.
+                    </p>
+                    <p class="text-brand-navy dark:text-white font-bold">
+                        We decided to build the antidote.
+                    </p>
+                    <p>
+                        We stopped selling "marketing" and started building Revenue Engines. We focus exclusively on the mechanics that actually move the needle: Elite Conversion Rate Optimization, high-intent local targeting, and automated CRM follow-ups to ensure you never miss a job while you're on a roof or under a sink.
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- 3. The Manifesto (Bento Grid) -->
+    <section class="py-32 px-6 bg-slate-50 dark:bg-[#0A0A0A] border-y border-slate-200 dark:border-white/5 transition-colors duration-500 relative z-10" id="bento-container-values">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-20 text-center scroll-section">
+                <h2 class="text-brand-orange text-xs tracking-[0.2em] font-bold mb-4 uppercase">Our Guarantees</h2>
+                <h3 class="text-4xl md:text-6xl font-extrabold leading-tight text-brand-navy dark:text-white tracking-tight transition-colors">
+                    The AGB Non-Negotiables.
+                </h3>
+                <p class="text-slate-500 dark:text-slate-400 mt-4 font-medium max-w-2xl mx-auto">We don't operate like a vendor. We operate as a growth partner. These are the four pillars that dictate how we run our business.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Value 1 -->
+                <div class="spotlight-card p-10 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 transition-colors group scroll-section">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-brand-blue/10 text-brand-blue flex items-center justify-center mb-8 border border-blue-100 dark:border-brand-blue/20 transition-transform group-hover:scale-110">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">Strict Exclusivity</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">We partner with ONE contractor, per trade, per service radius. We will never run ads or do SEO for your direct local competitor while we work with you. Your success is our sole focus in your market.</p>
+                </div>
+
+                <!-- Value 2 -->
+                <div class="spotlight-card p-10 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 transition-colors group scroll-section">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-brand-orange/10 text-brand-orange flex items-center justify-center mb-8 border border-orange-100 dark:border-brand-orange/20 transition-transform group-hover:scale-110">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">Radical Transparency</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">No smoke and mirrors. You get direct access to our centralized CRM dashboard. You will see exactly how much you spend, exactly how many leads are generated, and your exact Cost-Per-Lead in real-time.</p>
+                </div>
+
+                <!-- Value 3 -->
+                <div class="spotlight-card p-10 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 transition-colors group scroll-section">
+                    <div class="w-14 h-14 rounded-2xl bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 flex items-center justify-center mb-8 border border-green-100 dark:border-green-500/20 transition-transform group-hover:scale-110">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">Total Ownership</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Many agencies hold your domain name, ad accounts, or website hostage. Not us. You own 100% of your digital assets. We manage and scale them, but the keys to the castle belong to you.</p>
+                </div>
+
+                <!-- Value 4 -->
+                <div class="spotlight-card p-10 bg-brand-navy dark:bg-[#050505] border border-brand-blue/30 dark:border-white/10 transition-colors group relative overflow-hidden scroll-section">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-blue text-white flex items-center justify-center mb-8 shadow-glow-blue transition-transform group-hover:scale-110">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4 text-white">Speed to Lead</h4>
+                        <p class="text-slate-300 font-medium leading-relaxed">In home services, whoever answers the phone first wins the job. Our entire CRM and web infrastructure is engineered to ensure every inbound prospect is engaged within 60 seconds, period.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Giant Metrics (The Proof) -->
+    <section class="py-32 px-6 bg-white dark:bg-[#050505] border-b border-slate-100 dark:border-white/5 relative z-10 overflow-hidden transition-colors duration-500">
+        <div class="max-w-[1400px] mx-auto relative z-10 grid lg:grid-cols-3 gap-16 text-center divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-white/10 transition-colors">
+            <div class="py-4 flex flex-col items-center">
+                <div class="text-7xl md:text-[6rem] font-black tracking-tighter mb-4 text-brand-navy dark:text-white transition-colors counter">$<span data-target="50">0</span>M+</div>
+                <div class="font-bold tracking-[0.2em] text-xs mb-4 text-brand-blue uppercase border-b border-slate-200 dark:border-white/10 transition-colors pb-3 w-48">Client Revenue</div>
+                <p class="font-medium text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed transition-colors">Tracked revenue generated for our partners across all trades.</p>
+            </div>
+            <div class="py-4 flex flex-col items-center">
+                <div class="text-7xl md:text-[6rem] font-black tracking-tighter mb-4 text-brand-navy dark:text-white transition-colors counter"><span data-target="100">0</span>k+</div>
+                <div class="font-bold tracking-[0.2em] text-xs mb-4 text-brand-blue uppercase border-b border-slate-200 dark:border-white/10 transition-colors pb-3 w-48">Exclusive Leads</div>
+                <p class="font-medium text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed transition-colors">High-intent phone calls and forms generated for our network.</p>
+            </div>
+            <div class="py-4 flex flex-col items-center">
+                <div class="text-7xl md:text-[6rem] font-black tracking-tighter mb-4 text-brand-orange transition-colors">0</div>
+                <div class="font-bold tracking-[0.2em] text-xs mb-4 text-brand-orange uppercase border-b border-slate-200 dark:border-white/10 transition-colors pb-3 w-48">Shared Leads Sold</div>
+                <p class="font-medium text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed transition-colors">We only build proprietary, exclusive pipelines. No bidding wars.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CTA Banner -->
+    <section class="py-32 px-6 bg-brand-navy relative z-10 overflow-hidden">
+        <div class="absolute inset-0 bg-dot-grid opacity-20 pointer-events-none"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10 text-center scroll-section">
+            <h2 class="text-brand-orange text-xs tracking-[0.2em] font-bold mb-4 uppercase">The Next Step</h2>
+            <h3 class="text-5xl md:text-7xl font-extrabold mb-8 leading-[1.05] text-white tracking-tight">
+                Ready to dominate <br>your local market?
+            </h3>
+            <p class="text-slate-400 text-xl font-medium leading-relaxed mb-12 max-w-2xl mx-auto">
+                Stop renting space on shared platforms. Start building your own asset. Let's look at your market gaps and map out a custom Revenue Engine.
+            </p>
+            
+            <a href="index.html#audit" class="group relative inline-flex items-center justify-center px-10 py-5 rounded-2xl font-bold text-xl text-white bg-brand-orange overflow-hidden transition-all shadow-glow-orange hover:-translate-y-1">
+                <span class="relative z-10 flex items-center gap-2">Claim Your Territory <svg class="w-6 h-6 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
+                <div class="absolute inset-0 bg-brand-orangeHover transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white dark:bg-[#050505] border-t border-slate-100 dark:border-white/5 relative z-10 transition-colors duration-500">
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-3xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors">
+                AGB<span class="text-brand-blue">.</span>
+            </div>
+            <div class="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase flex flex-col md:flex-row gap-4 md:gap-16 text-center md:text-left">
+                <span>&copy; 2026 AGB DIGITAL SOLUTIONS</span>
+                <span>BAHAMAS // USA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Dark Mode Engine ---
+        const html = document.getElementById('html-root');
+        function toggleTheme() { html.classList.toggle('dark'); }
+
+        // --- Lenis Smooth Scrolling ---
+        const lenis = new Lenis({ duration: 1.2, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        // --- Navbar Glass Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.remove('border-transparent', 'py-5');
+            } else {
+                nav.classList.remove('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.add('border-transparent', 'py-5');
+            }
+        });
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(".hero-elem", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "expo.out", delay: 0.1 });
+
+        // Scroll reveals for sections
+        const sections = gsap.utils.toArray('.scroll-section');
+        sections.forEach((section) => {
+            gsap.fromTo(section, 
+                { y: 50, opacity: 0 },
+                { scrollTrigger: { trigger: section, start: "top 85%" }, y: 0, opacity: 1, duration: 1.2, ease: "expo.out" }
+            );
+        });
+
+        // Spotlight Hover Logic
+        document.querySelectorAll("[id^='bento-container']").forEach(container => {
+            container.onmousemove = e => {
+                for(const card of container.getElementsByClassName("spotlight-card")) {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                };
+            }
+        });
+
+        // Counter Animation
+        document.querySelectorAll('.counter span').forEach(counter => {
+            ScrollTrigger.create({
+                trigger: counter, start: "top 90%", once: true,
+                onEnter: () => {
+                    gsap.to(counter, {
+                        innerHTML: +counter.getAttribute('data-target'), duration: 2.5, ease: "power2.out", snap: { innerHTML: 1 },
+                        onUpdate: function() { counter.innerHTML = Math.round(this.targets()[0].innerHTML); }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
