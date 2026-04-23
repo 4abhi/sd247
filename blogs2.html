@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="bg-slate-50 text-slate-900 transition-colors duration-500">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Intel | AGB Digital Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0A0F1C',
+                            blue: '#2563EB',
+                            lightBlue: '#EFF6FF',
+                            orange: '#FF5722',
+                            orangeHover: '#E64A19',
+                            indigo: '#4F46E5',
+                            purple: '#8B5CF6',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 0 3px rgba(0,0,0,0.02)',
+                        'float': '0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 10px rgba(0,0,0,0.03)',
+                        'glow-orange': '0 0 24px rgba(255, 87, 34, 0.3)',
+                        'glow-blue': '0 0 30px rgba(37, 99, 235, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.03em; }
+
+        /* Mesh Backgrounds */
+        .mesh-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 237, 213, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(219, 234, 254, 0.5) 0px, transparent 50%);
+            filter: blur(60px); pointer-events: none; transition: opacity 0.5s;
+        }
+        html.dark .mesh-bg {
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 87, 34, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+        }
+
+        /* Dot Grid */
+        .bg-dot-grid {
+            background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+        html.dark .bg-dot-grid { background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); }
+
+        /* Spotlight Hover */
+        .spotlight-card {
+            position: relative; overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        .spotlight-card::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(37, 99, 235, 0.06), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+        }
+        html.dark .spotlight-card::before {
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.06), transparent 40%);
+        }
+        .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card > * { position: relative; z-index: 10; }
+
+        /* Floating Label Inputs */
+        .input-group { position: relative; width: 100%; }
+        .float-input {
+            width: 100%; padding: 1.5rem 1.25rem 0.5rem 1.25rem; font-size: 1rem; font-weight: 500; border-radius: 1rem; transition: all 0.3s ease;
+        }
+        .float-input:focus { outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(37, 99, 235, 0.1); border-color: #2563EB;}
+        .float-label {
+            position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); font-size: 1rem; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; color: #64748b;
+        }
+        .float-input:focus ~ .float-label, .float-input:not(:placeholder-shown) ~ .float-label {
+            top: 1rem; font-size: 0.75rem; font-weight: 600; color: #2563EB;
+        }
+
+        /* Filter Active State */
+        .filter-btn.active {
+            background-color: #2563EB;
+            color: #FFFFFF;
+            border-color: #2563EB;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white dark:bg-[#050505] dark:text-slate-50 transition-colors duration-500">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 py-5 border-b border-transparent dark:border-white/5" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors duration-500 hover:opacity-80">
+                AGB<span class="text-brand-blue">.</span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <!-- Links -->
+                <div class="hidden md:flex gap-6 font-semibold text-sm mr-4">
+                    <a href="index.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Home</a>
+                    <a href="services.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Services</a>
+                    <a href="about.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">About Us</a>
+                    <a href="blog.html" class="text-brand-blue dark:text-white transition-colors">Intel</a>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="text-slate-400 hover:text-brand-blue dark:hover:text-brand-orange transition-colors">
+                    <svg id="theme-icon-dark" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-light" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                
+                <a href="index.html#audit" class="group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold text-sm text-white bg-brand-navy dark:bg-white dark:text-brand-navy overflow-hidden transition-all shadow-soft hover:shadow-float">
+                    <span class="relative z-10 transition-colors duration-300">Get Free Audit</span>
+                    <div class="absolute inset-0 bg-brand-blue transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative pt-40 pb-16 lg:pt-48 lg:pb-24 px-6 flex items-center overflow-hidden transition-colors">
+        <div class="mesh-bg"></div>
+        <div class="absolute inset-0 bg-dot-grid z-0 opacity-60 dark:opacity-30 transition-opacity"></div>
+        
+        <div class="max-w-[1000px] mx-auto relative z-10 w-full text-center">
+            <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-extrabold leading-[1.05] tracking-tight text-brand-navy dark:text-white mb-6 hero-elem transition-colors">
+                The <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-navy via-brand-blue to-blue-400 dark:from-white dark:via-brand-blue dark:to-blue-400">Intel.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed hero-elem font-medium transition-colors mb-10">
+                Tactical insights, deployment strategies, and operational blueprints for home service contractors scaling to 7 & 8 figures.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. Featured Article -->
+    <section class="pb-16 px-6 relative z-10 hero-elem">
+        <div class="max-w-[1400px] mx-auto">
+            <a href="blog-post.html" class="group block spotlight-card bg-white dark:bg-[#0A0A0A] rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-soft hover:shadow-float transition-all overflow-hidden flex flex-col lg:flex-row">
+                <!-- Image Side -->
+                <div class="lg:w-3/5 h-64 lg:h-auto overflow-hidden relative">
+                    <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Featured Article">
+                    <div class="absolute top-6 left-6 z-20">
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-brand-blue tracking-widest uppercase shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span> New Release
+                        </span>
+                    </div>
+                </div>
+                <!-- Content Side -->
+                <div class="lg:w-2/5 p-10 lg:p-16 flex flex-col justify-center relative z-20">
+                    <div class="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+                        <span class="text-brand-blue">Web & SEO</span>
+                        <span>•</span>
+                        <span>8 Min Read</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-extrabold text-brand-navy dark:text-white leading-tight mb-6 group-hover:text-brand-blue transition-colors">
+                        Stop Renting Leads: The 7-Figure Contractor Architecture
+                    </h2>
+                    <p class="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8">
+                        Why paying shared lead platforms is slowly killing your margins, and how to build a proprietary revenue engine that guarantees exclusive market dominance.
+                    </p>
+                    <div class="mt-auto flex items-center gap-2 text-brand-blue font-bold hover:gap-3 transition-all">
+                        Read Blueprint <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- 3. Post Feed & Filters -->
+    <section class="py-16 px-6 relative z-10 border-t border-slate-200 dark:border-white/5 transition-colors">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap items-center gap-3 mb-12 scroll-section">
+                <button class="filter-btn active px-5 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-brand-blue hover:text-brand-blue dark:hover:text-white transition-colors" data-filter="all">View All</button>
+                <button class="filter-btn px-5 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-brand-blue hover:text-brand-blue dark:hover:text-white transition-colors" data-filter="seo">Web & SEO</button>
+                <button class="filter-btn px-5 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-brand-orange hover:text-brand-orange transition-colors" data-filter="traffic">Paid Traffic</button>
+                <button class="filter-btn px-5 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-brand-indigo hover:text-brand-indigo transition-colors" data-filter="crm">Automation & CRM</button>
+                <button class="filter-btn px-5 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-brand-purple hover:text-brand-purple transition-colors" data-filter="social">Social & Campaigns</button>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="post-grid">
+                
+                <!-- Card 1: Traffic -->
+                <a href="#" class="post-card spotlight-card group block bg-white dark:bg-[#0A0A0A] rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-float transition-all overflow-hidden flex flex-col h-full scroll-section" data-category="traffic">
+                    <div class="h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Blog Image">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative z-20">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-3">Paid Traffic</div>
+                        <h4 class="text-xl font-bold text-brand-navy dark:text-white mb-3 group-hover:text-brand-orange transition-colors leading-snug">How to Reduce Your Ad CPL by 40% Using Local LSA</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-auto">Google Guaranteed is changing the landscape for contractors. Here is exactly how to exploit it to drive down costs.</p>
+                    </div>
+                </a>
+
+                <!-- Card 2: CRM -->
+                <a href="#" class="post-card spotlight-card group block bg-white dark:bg-[#0A0A0A] rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-float transition-all overflow-hidden flex flex-col h-full scroll-section" data-category="crm">
+                    <div class="h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32d7?q=80&w=1932&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Blog Image">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative z-20">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-3">Automation & CRM</div>
+                        <h4 class="text-xl font-bold text-brand-navy dark:text-white mb-3 group-hover:text-brand-indigo transition-colors leading-snug">The "Missed Call" Trap: Calculating Your Real Lost Revenue</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-auto">If you miss 10 calls a week, you aren't just losing leads—you're literally funding your competitors' businesses.</p>
+                    </div>
+                </a>
+
+                <!-- Card 3: Social -->
+                <a href="#" class="post-card spotlight-card group block bg-white dark:bg-[#0A0A0A] rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-float transition-all overflow-hidden flex flex-col h-full scroll-section" data-category="social">
+                    <div class="h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=2074&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Blog Image">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative z-20">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-purple mb-3">Social & Campaigns</div>
+                        <h4 class="text-xl font-bold text-brand-navy dark:text-white mb-3 group-hover:text-brand-purple transition-colors leading-snug">Database Reactivation: Turn Cold Emails into $20k</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-auto">Your most profitable marketing asset is sitting in an Excel sheet. Here is how to wake up your past customers.</p>
+                    </div>
+                </a>
+
+                <!-- Card 4: Web/SEO -->
+                <a href="blog-post.html" class="post-card spotlight-card group block bg-white dark:bg-[#0A0A0A] rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-float transition-all overflow-hidden flex flex-col h-full scroll-section" data-category="seo">
+                    <div class="h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Blog Image">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative z-20">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-blue mb-3">Web & SEO</div>
+                        <h4 class="text-xl font-bold text-brand-navy dark:text-white mb-3 group-hover:text-brand-blue transition-colors leading-snug">Why Your Conversion Rate is Sub-2% (And How to Fix It)</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-auto">If your website is taking more than 3 seconds to load on a mobile device, you are bleeding high-ticket leads.</p>
+                    </div>
+                </a>
+
+                <!-- Card 5: Traffic -->
+                <a href="#" class="post-card spotlight-card group block bg-white dark:bg-[#0A0A0A] rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-float transition-all overflow-hidden flex flex-col h-full scroll-section" data-category="traffic">
+                    <div class="h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?q=80&w=2067&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Blog Image">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative z-20">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-3">Paid Traffic</div>
+                        <h4 class="text-xl font-bold text-brand-navy dark:text-white mb-3 group-hover:text-brand-orange transition-colors leading-snug">Meta Retargeting: Staying Top of Mind for Big Jobs</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-auto">Homeowners rarely book a $15,000 job on the first click. Learn how to legally stalk them across the internet until they do.</p>
+                    </div>
+                </a>
+
+                <!-- Card 6: CRM -->
+                <a href="#" class="post-card spotlight-card group block bg-white dark:bg-[#0A0A0A] rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-sm hover:shadow-float transition-all overflow-hidden flex flex-col h-full scroll-section" data-category="crm">
+                    <div class="h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-brand-navy/10 mix-blend-multiply z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" alt="Blog Image">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col relative z-20">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-3">Automation & CRM</div>
+                        <h4 class="text-xl font-bold text-brand-navy dark:text-white mb-3 group-hover:text-brand-indigo transition-colors leading-snug">Automating Google Reviews to Dominate the Map Pack</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-auto">Stop begging for reviews manually. Connect your dispatch software to our CRM to automatically trigger 5-star requests.</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Newsletter Capture -->
+    <section class="py-24 px-6 relative z-10 scroll-section">
+        <div class="max-w-[1000px] mx-auto bg-brand-navy dark:bg-[#050505] rounded-[3rem] p-10 md:p-16 relative overflow-hidden shadow-float border border-brand-blue/20">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-brand-blue rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-orange rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
+            
+            <div class="relative z-10 text-center max-w-2xl mx-auto">
+                <div class="w-16 h-16 rounded-2xl bg-brand-blue flex items-center justify-center text-white shadow-glow-blue mx-auto mb-8">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">Stay Ahead of the Market.</h3>
+                <p class="text-slate-400 text-lg mb-10 font-medium">Join 2,500+ elite contractors receiving our tactical growth breakdowns delivered straight to their inbox every Tuesday.</p>
+                
+                <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" onsubmit="event.preventDefault(); alert('Subscribed! (Simulated)');">
+                    <div class="input-group flex-1">
+                        <input type="email" id="nEmail" required class="float-input bg-white/5 border border-white/10 text-white transition-colors" placeholder=" ">
+                        <label for="nEmail" class="float-label text-slate-400">Enter your email</label>
+                    </div>
+                    <button type="submit" class="px-8 py-4 rounded-xl font-bold text-white bg-brand-blue hover:bg-blue-600 transition-colors shadow-glow-blue shrink-0">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white dark:bg-[#050505] border-t border-slate-100 dark:border-white/5 relative z-10 transition-colors duration-500">
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-3xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors">
+                AGB<span class="text-brand-blue">.</span>
+            </div>
+            <div class="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase flex flex-col md:flex-row gap-4 md:gap-16 text-center md:text-left">
+                <span>&copy; 2026 AGB DIGITAL SOLUTIONS</span>
+                <span>BAHAMAS // USA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Dark Mode Engine ---
+        const html = document.getElementById('html-root');
+        function toggleTheme() { html.classList.toggle('dark'); }
+
+        // --- Lenis Smooth Scrolling ---
+        const lenis = new Lenis({ duration: 1.2, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        // --- Navbar Glass Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.remove('border-transparent', 'py-5');
+            } else {
+                nav.classList.remove('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.add('border-transparent', 'py-5');
+            }
+        });
+
+        // --- Category Filter Logic ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const postCards = document.querySelectorAll('.post-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-blue', 'text-white');
+                    b.style.backgroundColor = '';
+                    b.style.color = '';
+                    b.style.borderColor = '';
+                });
+
+                // Add active state to clicked button based on its specific hover color
+                btn.classList.add('active');
+                const filterValue = btn.getAttribute('data-filter');
+                
+                // Color logic based on pillar
+                if (filterValue !== 'all') {
+                    const colorMap = {
+                        'seo': '#2563EB',     // brand-blue
+                        'traffic': '#FF5722', // brand-orange
+                        'crm': '#4F46E5',     // brand-indigo
+                        'social': '#8B5CF6'   // brand-purple
+                    };
+                    btn.style.backgroundColor = colorMap[filterValue];
+                    btn.style.borderColor = colorMap[filterValue];
+                    btn.style.color = 'white';
+                }
+
+                // Filter logic with GSAP animation
+                postCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'flex';
+                        gsap.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(".hero-elem", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "expo.out", delay: 0.1 });
+
+        // Scroll reveals for sections
+        const sections = gsap.utils.toArray('.scroll-section');
+        sections.forEach((section) => {
+            gsap.fromTo(section, 
+                { y: 40, opacity: 0 },
+                { scrollTrigger: { trigger: section, start: "top 85%" }, y: 0, opacity: 1, duration: 1, ease: "expo.out" }
+            );
+        });
+
+        // Spotlight Hover Logic
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+            });
+        });
+    </script>
+</body>
+</html>
