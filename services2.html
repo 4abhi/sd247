@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="bg-slate-50 text-slate-900 transition-colors duration-500">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | AGB Digital Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0A0F1C',
+                            blue: '#2563EB',
+                            lightBlue: '#EFF6FF',
+                            orange: '#FF5722',
+                            orangeHover: '#E64A19',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 0 3px rgba(0,0,0,0.02)',
+                        'float': '0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 10px rgba(0,0,0,0.03)',
+                        'glow-orange': '0 0 24px rgba(255, 87, 34, 0.3)',
+                        'glow-blue': '0 0 30px rgba(37, 99, 235, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body {
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        /* Mesh Backgrounds */
+        .mesh-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 237, 213, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(219, 234, 254, 0.5) 0px, transparent 50%);
+            filter: blur(60px); pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        html.dark .mesh-bg {
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(255, 87, 34, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+        }
+
+        /* Dot Grid */
+        .bg-dot-grid {
+            background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+        html.dark .bg-dot-grid {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+        html.dark .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Floating Label Inputs for CTA */
+        .input-group { position: relative; width: 100%; }
+        .float-input {
+            width: 100%; padding: 1.5rem 1.25rem 0.5rem 1.25rem; font-size: 1rem; font-weight: 500; border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+        .float-input:focus { outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .float-label {
+            position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;
+        }
+        .float-input:focus ~ .float-label, .float-input:not(:placeholder-shown) ~ .float-label {
+            top: 1rem; font-size: 0.75rem; font-weight: 600; color: #2563EB;
+        }
+        select.float-input { appearance: none; cursor: pointer; }
+        .hidden-step { display: none; }
+
+        /* ScrollSpy Navigation */
+        .scroll-nav-item {
+            opacity: 0.3;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .scroll-nav-item::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0px;
+            background-color: currentColor;
+            transition: height 0.3s ease;
+            border-radius: 2px;
+        }
+        .scroll-nav-item.active-nav {
+            opacity: 1;
+            transform: translateX(8px);
+        }
+        .scroll-nav-item.active-nav::before {
+            height: 100%;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white dark:bg-[#050505] dark:text-slate-50 transition-colors duration-500 relative">
+
+    <!-- ScrollSpy Side Navigation (Desktop Only) -->
+    <div class="fixed left-8 top-1/2 -translate-y-1/2 hidden 2xl:flex flex-col gap-6 z-40" id="scrollspy">
+        <div class="text-[10px] font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-2 rotate-180" style="writing-mode: vertical-rl;">The Ecosystem</div>
+        <a href="#pillar-1" class="scroll-nav-item text-xs font-bold tracking-widest uppercase text-brand-blue" data-index="0">01. Web & SEO</a>
+        <a href="#pillar-2" class="scroll-nav-item text-xs font-bold tracking-widest uppercase text-brand-orange" data-index="1">02. Traffic</a>
+        <a href="#pillar-3" class="scroll-nav-item text-xs font-bold tracking-widest uppercase text-indigo-500" data-index="2">03. CRM</a>
+        <a href="#pillar-4" class="scroll-nav-item text-xs font-bold tracking-widest uppercase text-purple-500" data-index="3">04. Social</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 py-5 border-b border-transparent dark:border-white/5" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors duration-500 hover:opacity-80">
+                AGB<span class="text-brand-blue">.</span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <!-- Links -->
+                <div class="hidden md:flex gap-6 font-semibold text-sm mr-4">
+                    <a href="index.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Home</a>
+                    <a href="#" class="text-brand-blue dark:text-white transition-colors">Services</a>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="text-slate-400 hover:text-brand-blue dark:hover:text-brand-orange transition-colors">
+                    <svg id="theme-icon-dark" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-light" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                
+                <a href="#audit" class="group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold text-sm text-white bg-brand-navy dark:bg-white dark:text-brand-navy overflow-hidden transition-all shadow-soft hover:shadow-float">
+                    <span class="relative z-10 transition-colors duration-300">Get Free Audit</span>
+                    <div class="absolute inset-0 bg-brand-blue transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative pt-40 pb-20 lg:pt-56 lg:pb-32 px-6 flex items-center overflow-hidden border-b border-slate-200 dark:border-white/5 transition-colors">
+        <div class="mesh-bg"></div>
+        <div class="absolute inset-0 bg-dot-grid z-0 opacity-60 dark:opacity-30 transition-opacity"></div>
+        
+        <div class="max-w-[1000px] mx-auto relative z-10 w-full text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-brand-navy/60 backdrop-blur-sm border border-slate-200/60 dark:border-white/10 text-xs font-bold text-brand-blue dark:text-brand-orange tracking-widest uppercase mb-8 shadow-sm w-max hero-elem transition-colors">
+                The AGB Ecosystem
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-extrabold leading-[1.05] tracking-tight text-brand-navy dark:text-white mb-6 hero-elem transition-colors">
+                Everything You Need.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-navy via-brand-blue to-blue-400 dark:from-white dark:via-brand-blue dark:to-blue-400">Nothing You Don't.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed hero-elem font-medium transition-colors">
+                We don't offer an ala-carte menu of confusing marketing services. We build and deploy a single, interconnected revenue engine designed to capture and close high-ticket local jobs.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. Services: Alternating Layout -->
+    <section class="bg-white dark:bg-[#050505] transition-colors duration-500 relative z-10 overflow-hidden pt-12 pb-32">
+        
+        <!-- Service 1: The Storefront -->
+        <div id="pillar-1" class="max-w-[1400px] mx-auto px-6 py-24 flex flex-col lg:flex-row items-center gap-16 lg:gap-24 scroll-section">
+            <!-- Content -->
+            <div class="lg:w-1/2">
+                <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-brand-blue/10 text-brand-blue flex items-center justify-center mb-8 border border-blue-100 dark:border-brand-blue/20 transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                </div>
+                <h2 class="text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-3">Service Pillar 01</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-brand-navy dark:text-white tracking-tight mb-6 transition-colors">CRO Web Development <br>& Local SEO</h3>
+                <p class="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8 transition-colors">
+                    Most contractor websites are just digital brochures. We build hyper-optimized landing pages engineered with one goal: converting mobile traffic into immediate phone calls. Coupled with our Local SEO strategies, we ensure you dominate the Google Map Pack in your service areas.
+                </p>
+                
+                <!-- What's Included -->
+                <div class="mb-8">
+                    <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Core Deliverables</h4>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">High-Speed Landing Pages</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Sticky "Click-to-Call"</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Google Business Profile</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Local Schema Markup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proof Metric Card -->
+                <div class="mt-8 flex items-center gap-5 p-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm transition-colors">
+                    <div class="text-3xl font-black text-brand-blue tracking-tighter shrink-0">+150%</div>
+                    <div class="h-10 w-px bg-slate-200 dark:bg-slate-700"></div>
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Average increase in organic profile visibility and website traffic within 6 months.</p>
+                </div>
+            </div>
+            <!-- Visual -->
+            <div class="lg:w-1/2 w-full relative">
+                <div class="absolute inset-0 bg-brand-blue/10 dark:bg-brand-blue/20 blur-[80px] rounded-full"></div>
+                <div class="bg-slate-100 dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-[2rem] p-8 relative z-10 shadow-float transition-colors">
+                    <!-- Abstract Web Wireframe -->
+                    <div class="h-8 bg-white dark:bg-brand-navy rounded-lg mb-6 border border-slate-200 dark:border-white/5 flex items-center px-4">
+                        <div class="w-16 h-2 bg-brand-blue rounded-full"></div>
+                        <div class="ml-auto flex gap-2"><div class="w-6 h-2 bg-slate-200 dark:bg-slate-700 rounded-full"></div><div class="w-6 h-2 bg-slate-200 dark:bg-slate-700 rounded-full"></div></div>
+                    </div>
+                    <div class="h-40 bg-brand-navy dark:bg-[#050505] rounded-xl mb-6 flex flex-col items-center justify-center p-6 border border-slate-800 dark:border-white/5">
+                        <div class="w-3/4 h-4 bg-slate-700 dark:bg-slate-800 rounded-full mb-4"></div>
+                        <div class="w-1/2 h-4 bg-slate-700 dark:bg-slate-800 rounded-full mb-8"></div>
+                        <div class="w-32 h-10 bg-brand-orange rounded-full shadow-glow-orange"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="h-24 bg-white dark:bg-brand-navy rounded-xl border border-slate-200 dark:border-white/5"></div>
+                        <div class="h-24 bg-white dark:bg-brand-navy rounded-xl border border-slate-200 dark:border-white/5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service 2: The Traffic Engine -->
+        <div id="pillar-2" class="max-w-[1400px] mx-auto px-6 py-24 flex flex-col-reverse lg:flex-row items-center gap-16 lg:gap-24 scroll-section">
+            <!-- Visual -->
+            <div class="lg:w-1/2 w-full relative">
+                <div class="absolute inset-0 bg-brand-orange/10 dark:bg-brand-orange/20 blur-[80px] rounded-full"></div>
+                <div class="bg-slate-100 dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-[2rem] p-8 relative z-10 shadow-float transition-colors">
+                    <!-- Abstract Ads UI -->
+                    <div class="space-y-4">
+                        <div class="bg-white dark:bg-brand-navy p-4 rounded-xl border border-slate-200 dark:border-white/5 flex gap-4 items-center">
+                            <div class="w-12 h-12 bg-blue-50 dark:bg-brand-blue/20 text-brand-blue rounded-lg flex items-center justify-center font-bold">G</div>
+                            <div class="flex-1">
+                                <div class="w-24 h-2 bg-brand-blue rounded-full mb-2"></div>
+                                <div class="w-3/4 h-2 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                            </div>
+                            <div class="text-xs font-bold text-green-500 bg-green-50 dark:bg-green-500/10 px-2 py-1 rounded">Active</div>
+                        </div>
+                        <div class="bg-white dark:bg-brand-navy p-4 rounded-xl border border-slate-200 dark:border-white/5 flex gap-4 items-center">
+                            <div class="w-12 h-12 bg-blue-50 dark:bg-brand-blue/20 text-brand-blue rounded-lg flex items-center justify-center font-bold">M</div>
+                            <div class="flex-1">
+                                <div class="w-32 h-2 bg-brand-blue rounded-full mb-2"></div>
+                                <div class="w-1/2 h-2 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                            </div>
+                            <div class="text-xs font-bold text-green-500 bg-green-50 dark:bg-green-500/10 px-2 py-1 rounded">Active</div>
+                        </div>
+                        <div class="bg-brand-navy dark:bg-[#050505] p-6 rounded-xl border border-slate-800 dark:border-white/10 mt-6 relative overflow-hidden">
+                            <div class="text-slate-400 text-xs uppercase tracking-widest font-bold mb-2">Cost Per Lead (CPL)</div>
+                            <div class="text-4xl font-black text-white">-42%</div>
+                            <svg class="absolute bottom-0 right-0 w-32 h-16 text-brand-blue opacity-50" viewBox="0 0 100 50" preserveAspectRatio="none"><path d="M0,50 L20,30 L40,40 L60,10 L80,20 L100,0" fill="none" stroke="currentColor" stroke-width="4"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Content -->
+            <div class="lg:w-1/2">
+                <div class="w-16 h-16 rounded-2xl bg-orange-50 dark:bg-brand-orange/10 text-brand-orange flex items-center justify-center mb-8 border border-orange-100 dark:border-brand-orange/20 transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </div>
+                <h2 class="text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-3">Service Pillar 02</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-brand-navy dark:text-white tracking-tight mb-6 transition-colors">Precision Paid Traffic <br>(Google LSA & Meta)</h3>
+                <p class="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8 transition-colors">
+                    We don't buy billboard space; we buy intent. We deploy highly targeted Google Local Service Ads and Meta campaigns specifically structured to capture high-ticket emergency searches (like roof replacements or water damage). 
+                </p>
+                
+                <!-- What's Included -->
+                <div class="mb-8">
+                    <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Core Deliverables</h4>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-orange flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Google Guaranteed (LSA)</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-orange flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">High-Intent Search Ads</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-orange flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Retargeting Meta Ads</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-brand-orange flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Custom Ad Copy & Creative</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proof Metric Card -->
+                <div class="mt-8 flex items-center gap-5 p-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm transition-colors">
+                    <div class="text-3xl font-black text-brand-orange tracking-tighter shrink-0">-42%</div>
+                    <div class="h-10 w-px bg-slate-200 dark:bg-slate-700"></div>
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Average reduction in Cost-Per-Lead (CPL) compared to shared lead platforms like HomeAdvisor.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service 3: The Lead Trap -->
+        <div id="pillar-3" class="max-w-[1400px] mx-auto px-6 py-24 flex flex-col lg:flex-row items-center gap-16 lg:gap-24 scroll-section">
+            <!-- Content -->
+            <div class="lg:w-1/2">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-8 border border-indigo-100 dark:border-indigo-500/20 transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <h2 class="text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-3">Service Pillar 03</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-brand-navy dark:text-white tracking-tight mb-6 transition-colors">Automated CRM <br>& Reputation Engine</h3>
+                <p class="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8 transition-colors">
+                    Generating a lead is only half the battle. Our system instantly engages prospects via AI-driven SMS and email the second they hit submit. After the job is done, it automatically solicits 5-star Google reviews to compound your authority.
+                </p>
+                
+                <!-- What's Included -->
+                <div class="mb-8">
+                    <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Core Deliverables</h4>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Centralized Lead Inbox</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">5-Minute AI Follow-Ups</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Missed-Call Text Back</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Automated Review Pipeline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proof Metric Card -->
+                <div class="mt-8 flex items-center gap-5 p-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm transition-colors">
+                    <div class="text-3xl font-black text-indigo-500 tracking-tighter shrink-0">100%</div>
+                    <div class="h-10 w-px bg-slate-200 dark:bg-slate-700"></div>
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Of inbound inquiries are engaged instantly, eliminating lost revenue due to missed calls from the job site.</p>
+                </div>
+            </div>
+            <!-- Visual -->
+            <div class="lg:w-1/2 w-full relative">
+                <div class="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-500/20 blur-[80px] rounded-full"></div>
+                <div class="bg-slate-100 dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-[2rem] p-8 relative z-10 shadow-float transition-colors">
+                    <!-- Abstract Chat UI -->
+                    <div class="bg-white dark:bg-brand-navy rounded-xl border border-slate-200 dark:border-white/5 h-80 flex flex-col overflow-hidden">
+                        <div class="h-12 border-b border-slate-100 dark:border-white/5 flex items-center px-4 justify-between bg-slate-50 dark:bg-[#050505]">
+                            <div class="font-bold text-sm text-brand-navy dark:text-white">John Homeowner</div>
+                            <div class="flex gap-2"><div class="w-2 h-2 rounded-full bg-slate-300"></div><div class="w-2 h-2 rounded-full bg-slate-300"></div></div>
+                        </div>
+                        <div class="flex-1 p-4 space-y-4 flex flex-col">
+                            <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tl-sm p-3 w-3/4 self-start">
+                                <div class="w-full h-2 bg-slate-300 dark:bg-slate-600 rounded mb-2"></div>
+                                <div class="w-2/3 h-2 bg-slate-300 dark:bg-slate-600 rounded"></div>
+                            </div>
+                            <div class="bg-brand-blue text-white rounded-2xl rounded-tr-sm p-3 w-3/4 self-end shadow-glow-blue mt-auto">
+                                <div class="text-[10px] uppercase font-bold mb-1 opacity-70">Automated AI Reply • 0:01s</div>
+                                <div class="w-full h-2 bg-blue-200 rounded mb-2"></div>
+                                <div class="w-4/5 h-2 bg-blue-200 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service 4: Social Authority & Campaigns -->
+        <div id="pillar-4" class="max-w-[1400px] mx-auto px-6 py-24 flex flex-col-reverse lg:flex-row items-center gap-16 lg:gap-24 scroll-section">
+            <!-- Visual -->
+            <div class="lg:w-1/2 w-full relative">
+                <div class="absolute inset-0 bg-purple-500/10 dark:bg-purple-500/20 blur-[80px] rounded-full"></div>
+                <div class="bg-slate-100 dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-[2rem] p-8 relative z-10 shadow-float transition-colors">
+                    <!-- Abstract Social & Campaign UI -->
+                    <div class="space-y-6">
+                        <!-- Social Post Card -->
+                        <div class="bg-white dark:bg-brand-navy p-5 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+                                <div>
+                                    <div class="w-24 h-2 bg-slate-300 dark:bg-slate-600 rounded-full mb-2"></div>
+                                    <div class="w-16 h-2 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="w-full h-32 bg-slate-100 dark:bg-slate-800 rounded-lg mb-4 flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-white/50 dark:bg-white/5 flex items-center justify-center"><svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-8 h-3 bg-purple-100 dark:bg-purple-500/20 rounded-full"></div>
+                                <div class="w-8 h-3 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                            </div>
+                        </div>
+                        <!-- Campaign Metric -->
+                        <div class="bg-purple-600 p-6 rounded-xl border border-purple-500 text-white relative overflow-hidden shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                            <div class="absolute right-0 top-0 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+                            <div class="text-purple-200 text-xs uppercase tracking-widest font-bold mb-2">Campaign Reach</div>
+                            <div class="text-4xl font-black tracking-tight">24.5k</div>
+                            <div class="text-xs font-bold text-white mt-2 bg-white/20 w-max px-3 py-1 rounded-full flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Local Homeowners
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Content -->
+            <div class="lg:w-1/2">
+                <div class="w-16 h-16 rounded-2xl bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-8 border border-purple-100 dark:border-purple-500/20 transition-all">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                </div>
+                <h2 class="text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-3">Service Pillar 04</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-brand-navy dark:text-white tracking-tight mb-6 transition-colors">Social Authority <br>& Targeted Campaigns</h3>
+                <p class="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8 transition-colors">
+                    Homeowners vet contractors before making high-ticket decisions. We manage your social media to project absolute authority and deploy targeted seasonal campaigns (email & SMS) to reactivate past customers and warm up cold local audiences.
+                </p>
+                
+                <!-- What's Included -->
+                <div class="mb-8">
+                    <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Core Deliverables</h4>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Branded Social Presence</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Before & After Showcases</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">Seasonal Email Blasts</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 transition-colors">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-sm font-semibold text-brand-navy dark:text-white">SMS Reactivation Campaigns</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proof Metric Card -->
+                <div class="mt-8 flex items-center gap-5 p-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm transition-colors">
+                    <div class="text-3xl font-black text-purple-500 tracking-tighter shrink-0">4.5x</div>
+                    <div class="h-10 w-px bg-slate-200 dark:bg-slate-700"></div>
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Higher conversion rate on cold leads when a business maintains a strong, active social media authority presence.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 3. The Form (Floating Label Premium Form) -->
+    <section id="audit" class="py-40 px-6 bg-brand-navy relative z-10 overflow-hidden">
+        <div class="absolute inset-0 bg-dot-grid opacity-20 dark:opacity-10 pointer-events-none transition-opacity"></div>
+        <div class="absolute -left-[10%] top-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-[1400px] mx-auto relative z-10 flex flex-col lg:flex-row gap-20 items-center">
+            <div class="lg:w-1/2">
+                <h2 class="text-5xl md:text-7xl font-extrabold mb-8 leading-[1.05] text-white tracking-tight">
+                    Deploy the <br><span class="text-brand-orange">Ecosystem.</span>
+                </h2>
+                <p class="text-slate-400 text-xl font-medium max-w-md leading-relaxed mb-10">
+                    Ready to stop buying shared leads and start owning your market? Provide your details below for a free digital audit.
+                </p>
+                <div class="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">
+                    <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Secure 256-Bit Transmission
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 w-full">
+                <div class="bg-white dark:bg-[#050505] p-10 md:p-14 rounded-[2.5rem] shadow-float relative overflow-hidden transition-colors border border-transparent dark:border-white/10">
+                    <form id="growthForm" class="relative z-10" onsubmit="event.preventDefault(); submitForm();">
+                        <!-- Progress -->
+                        <div class="flex gap-3 mb-12">
+                            <div id="prog1" class="h-2 flex-1 bg-brand-orange rounded-full transition-colors duration-500 shadow-glow-orange"></div>
+                            <div id="prog2" class="h-2 flex-1 bg-slate-100 dark:bg-slate-800 rounded-full transition-colors duration-500"></div>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div id="step1" class="transition-all duration-500">
+                            <h3 class="text-3xl font-bold text-brand-navy dark:text-white mb-10 tracking-tight transition-colors">Tell us about your business.</h3>
+                            <div class="space-y-6">
+                                <div class="input-group">
+                                    <input type="text" id="bName" required class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="bName" class="float-label">Business Name</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="url" id="bUrl" required class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="bUrl" class="float-label">Website URL (https://)</label>
+                                </div>
+                                <div class="input-group">
+                                    <select required class="float-input text-slate-700 dark:text-slate-300 dark:bg-brand-navy dark:border-white/10 transition-colors" style="padding-top: 1rem;">
+                                        <option value="" disabled selected class="hidden">Primary Trade</option>
+                                        <option value="roofing">Roofing</option>
+                                        <option value="hvac">HVAC</option>
+                                        <option value="plumbing">Plumbing</option>
+                                        <option value="electrical">Electrical</option>
+                                        <option value="other">Other Home Service</option>
+                                    </select>
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-12">
+                                <button type="button" onclick="nextStep()" class="w-full inline-flex items-center justify-center px-8 py-5 font-bold text-white bg-brand-navy dark:bg-brand-blue rounded-2xl hover:bg-slate-800 dark:hover:bg-blue-600 transition-colors text-lg group">
+                                    Continue to Step 2 <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="step2" class="hidden-step transition-all duration-500">
+                            <h3 class="text-3xl font-bold text-brand-navy dark:text-white mb-10 tracking-tight transition-colors">Where should we send it?</h3>
+                            <div class="space-y-6">
+                                <div class="input-group">
+                                    <input type="text" id="reqName" class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="reqName" class="float-label">Your Full Name</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="tel" id="reqPhone" class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="reqPhone" class="float-label">Direct Phone Number</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="email" id="reqEmail" class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="reqEmail" class="float-label">Business Email</label>
+                                </div>
+                            </div>
+                            <div class="mt-12 flex flex-col sm:flex-row gap-4">
+                                <button type="button" onclick="prevStep()" class="px-8 py-5 font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 dark:text-slate-400 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                    Back
+                                </button>
+                                <button type="submit" class="flex-1 group relative inline-flex items-center justify-center px-8 py-5 font-bold text-lg text-white bg-brand-orange overflow-hidden transition-all rounded-2xl shadow-glow-orange hover:-translate-y-1">
+                                    <span class="relative z-10 transition-colors duration-300">Request Free Audit</span>
+                                    <div class="absolute inset-0 bg-brand-orangeHover transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Success State -->
+                        <div id="successState" class="hidden-step text-center py-16">
+                            <div class="w-24 h-24 bg-green-50 dark:bg-green-900/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8 border-[8px] border-green-50/50 dark:border-green-900/30 transition-colors">
+                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h3 class="text-4xl font-extrabold mb-4 text-brand-navy dark:text-white tracking-tight transition-colors">Audit Requested!</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-lg font-medium transition-colors">Our team is reviewing your digital footprint. We will be in touch shortly.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white dark:bg-[#050505] border-t border-slate-100 dark:border-white/5 relative z-10 transition-colors duration-500">
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-3xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors">
+                AGB<span class="text-brand-blue">.</span>
+            </div>
+            <div class="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase flex flex-col md:flex-row gap-4 md:gap-16 text-center md:text-left">
+                <span>&copy; 2026 AGB DIGITAL SOLUTIONS</span>
+                <span>BAHAMAS // USA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Dark Mode Engine ---
+        const html = document.getElementById('html-root');
+        function toggleTheme() { html.classList.toggle('dark'); }
+
+        // --- Lenis Smooth Scrolling ---
+        const lenis = new Lenis({ duration: 1.2, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        // --- Navbar Glass Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.remove('border-transparent', 'py-5');
+            } else {
+                nav.classList.remove('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.add('border-transparent', 'py-5');
+            }
+        });
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(".hero-elem", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "expo.out", delay: 0.1 });
+
+        // Scroll reveals for sections
+        const sections = gsap.utils.toArray('.scroll-section');
+        const navItems = document.querySelectorAll('.scroll-nav-item');
+
+        sections.forEach((section, i) => {
+            // Reveal animation
+            gsap.fromTo(section, 
+                { y: 50, opacity: 0 },
+                {
+                    scrollTrigger: { trigger: section, start: "top 80%" },
+                    y: 0, opacity: 1, duration: 1.2, ease: "expo.out"
+                }
+            );
+
+            // ScrollSpy Navigation Logic
+            if(navItems.length > 0) {
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 50%",
+                    end: "bottom 50%",
+                    onToggle: self => {
+                        if(self.isActive) {
+                            navItems.forEach(nav => nav.classList.remove('active-nav'));
+                            navItems[i].classList.add('active-nav');
+                        }
+                    }
+                });
+            }
+        });
+
+        // --- Form Logic ---
+        const step1 = document.getElementById('step1'); const step2 = document.getElementById('step2'); const success = document.getElementById('successState');
+        const reqName = document.getElementById('reqName'); const reqPhone = document.getElementById('reqPhone'); const reqEmail = document.getElementById('reqEmail');
+        const prog2 = document.getElementById('prog2');
+
+        function nextStep() {
+            let isValid = true;
+            step1.querySelectorAll('input, select').forEach(i => { if(!i.checkValidity()) { i.reportValidity(); isValid = false; } });
+            if(isValid) {
+                reqName.required = true; reqPhone.required = true; reqEmail.required = true;
+                prog2.classList.replace('bg-slate-100', 'bg-brand-orange'); prog2.classList.replace('dark:bg-slate-800', 'bg-brand-orange'); prog2.classList.add('shadow-glow-orange');
+                gsap.to(step1, { opacity: 0, x: -40, duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                    step1.classList.add('hidden-step'); step2.classList.remove('hidden-step');
+                    gsap.fromTo(step2, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" });
+                }});
+            }
+        }
+
+        function prevStep() {
+            reqName.required = false; reqPhone.required = false; reqEmail.required = false;
+            prog2.classList.replace('bg-brand-orange', 'bg-slate-100'); prog2.classList.replace('bg-brand-orange', 'dark:bg-slate-800'); prog2.classList.remove('shadow-glow-orange');
+            gsap.to(step2, { opacity: 0, x: 40, duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                step2.classList.add('hidden-step'); step1.classList.remove('hidden-step');
+                gsap.fromTo(step1, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" });
+            }});
+        }
+
+        function submitForm() {
+            gsap.to(step2, { opacity: 0, scale: 0.95, duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                step2.classList.add('hidden-step'); document.querySelector('.flex.gap-3.mb-12').style.display = 'none'; success.classList.remove('hidden-step');
+                gsap.fromTo(success, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" });
+            }});
+        }
+    </script>
+</body>
+</html>
