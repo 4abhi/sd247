@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" class="bg-slate-50 text-slate-900 transition-colors duration-500">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Marketing for Plumbers | AGB Digital Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0A0F1C',
+                            blue: '#2563EB',
+                            lightBlue: '#EFF6FF',
+                            orange: '#FF5722',
+                            orangeHover: '#E64A19',
+                            sky: '#0EA5E9', /* Plumbing Accent Color */
+                            skyHover: '#0284C7',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 0 3px rgba(0,0,0,0.02)',
+                        'float': '0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 0 10px rgba(0,0,0,0.03)',
+                        'glow-orange': '0 0 24px rgba(255, 87, 34, 0.3)',
+                        'glow-blue': '0 0 30px rgba(37, 99, 235, 0.2)',
+                        'glow-sky': '0 0 30px rgba(14, 165, 233, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.03em; }
+
+        /* Mesh Backgrounds (Water/Sky Tinted for Plumbers) */
+        .mesh-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(219, 234, 254, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(186, 230, 253, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(219, 234, 254, 0.5) 0px, transparent 50%);
+            filter: blur(60px); pointer-events: none; transition: opacity 0.5s;
+        }
+        html.dark .mesh-bg {
+            background-image: 
+                radial-gradient(at 80% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 40%, rgba(14, 165, 233, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+        }
+
+        /* Dot Grid */
+        .bg-dot-grid {
+            background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+        html.dark .bg-dot-grid { background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); }
+
+        /* Spotlight Hover */
+        .spotlight-card {
+            position: relative; overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        .spotlight-card::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(37, 99, 235, 0.06), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+        }
+        html.dark .spotlight-card::before {
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.06), transparent 40%);
+        }
+        .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card > * { position: relative; z-index: 10; }
+
+        /* Floating Label Inputs */
+        .input-group { position: relative; width: 100%; }
+        .float-input {
+            width: 100%; padding: 1.5rem 1.25rem 0.5rem 1.25rem; font-size: 1rem; font-weight: 500; border-radius: 1rem; transition: all 0.3s ease;
+        }
+        .float-input:focus { outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(37, 99, 235, 0.1); border-color: #2563EB;}
+        .float-label {
+            position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); font-size: 1rem; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; color: #64748b;
+        }
+        .float-input:focus ~ .float-label, .float-input:not(:placeholder-shown) ~ .float-label { top: 1rem; font-size: 0.75rem; font-weight: 600; color: #2563EB; }
+        select.float-input { appearance: none; cursor: pointer; }
+        .hidden-step { display: none; }
+
+        /* Slider */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; height: 8px; border-radius: 4px; outline: none; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #0EA5E9; cursor: pointer; box-shadow: 0 0 10px rgba(14, 165, 233, 0.5); transition: transform 0.1s; }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        .ba-slider-container { cursor: ew-resize; }
+        .ba-slider-handle { pointer-events: none; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white dark:bg-[#050505] dark:text-slate-50 transition-colors duration-500">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-500 py-5 border-b border-transparent dark:border-white/5" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors duration-500 hover:opacity-80">
+                AGB<span class="text-brand-blue">.</span>
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <!-- Links -->
+                <div class="hidden md:flex gap-6 font-semibold text-sm mr-4">
+                    <a href="index.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Home</a>
+                    <a href="services.html" class="text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-colors">Services</a>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="text-slate-400 hover:text-brand-blue dark:hover:text-brand-sky transition-colors">
+                    <svg id="theme-icon-dark" class="w-6 h-6 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-light" class="w-6 h-6 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                
+                <a href="#audit" class="group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold text-sm text-white bg-brand-navy dark:bg-white dark:text-brand-navy overflow-hidden transition-all shadow-soft hover:shadow-float">
+                    <span class="relative z-10 transition-colors duration-300">Get Free Audit</span>
+                    <div class="absolute inset-0 bg-brand-blue transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative min-h-[95vh] pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 flex items-center overflow-hidden">
+        <div class="mesh-bg"></div>
+        <div class="absolute inset-0 bg-dot-grid z-0 opacity-60 dark:opacity-30 transition-opacity"></div>
+        
+        <!-- Animated Parallax Orbs -->
+        <div class="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-brand-blue/10 dark:bg-brand-blue/20 rounded-full blur-[100px] parallax-orb transition-colors" data-speed="0.05"></div>
+        <div class="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] bg-brand-sky/10 dark:bg-brand-sky/20 rounded-full blur-[100px] parallax-orb transition-colors" data-speed="-0.05"></div>
+        
+        <div class="max-w-[1400px] mx-auto relative z-10 w-full grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            
+            <!-- Left: Typography & CTA -->
+            <div class="lg:col-span-6 flex flex-col justify-center hero-text z-20">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-brand-navy/60 backdrop-blur-sm border border-slate-200/60 dark:border-white/10 text-xs font-bold text-slate-600 dark:text-slate-300 tracking-wider uppercase mb-8 shadow-sm w-max hero-elem transition-colors">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-sky opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-sky"></span>
+                    </span>
+                    <span>Plumbing Exclusive Partnership</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.05] tracking-tight text-brand-navy dark:text-white mb-6 hero-elem transition-colors">
+                    Stop Competing <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-navy via-brand-blue to-sky-400 dark:from-white dark:via-brand-blue dark:to-sky-400">On Price.</span>
+                </h1>
+                
+                <h2 class="text-2xl lg:text-3xl font-semibold mb-6 text-slate-600 dark:text-slate-300 hero-elem tracking-tight transition-colors">
+                    Start Closing $5k+ Water Heaters & Repipes.
+                </h2>
+                
+                <p class="text-lg text-slate-500 dark:text-slate-400 mb-10 max-w-xl leading-relaxed hero-elem font-medium transition-colors">
+                    Stop buying shared leads just to get underbid on a $99 drain cleaning. We build exclusive, high-ticket revenue engines for elite plumbers to dominate local emergency and full-system replacement searches.
+                </p>
+                
+                <div class="hero-elem flex flex-col sm:flex-row gap-4 items-start">
+                    <a href="#audit" class="group relative inline-flex items-center justify-center px-8 py-4 rounded-2xl font-bold text-lg text-white bg-brand-sky overflow-hidden transition-all shadow-glow-sky hover:-translate-y-1">
+                        <span class="relative z-10 flex items-center gap-2">Claim Your Territory <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
+                        <div class="absolute inset-0 bg-brand-skyHover transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                    </a>
+                </div>
+
+                <div class="mt-14 flex items-center gap-4 text-sm font-semibold text-slate-500 dark:text-slate-400 hero-elem pt-6 border-t border-slate-200/60 dark:border-white/10 max-w-md transition-colors">
+                    <div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-500/20 text-green-500 flex items-center justify-center border border-green-200 dark:border-green-500/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <p>We only partner with <span class="text-brand-navy dark:text-white font-bold transition-colors">ONE Plumber</span> per zip code radius.</p>
+                </div>
+            </div>
+            
+            <!-- Right: Abstract Dashboard specific to Plumbing -->
+            <div class="lg:col-span-6 relative w-full h-[550px] hidden lg:block perspective-1000 z-10 hero-elem">
+                <div class="absolute inset-0 bg-white dark:bg-[#0A0A0A] border border-slate-200 dark:border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-[2rem] transform rotate-y-[-10deg] rotate-x-[5deg] overflow-hidden transition-colors duration-500" id="floating-web">
+                    <!-- Browser Header -->
+                    <div class="h-12 border-b border-slate-100 dark:border-white/5 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center px-6 gap-2">
+                        <div class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div><div class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div><div class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+                        <div class="ml-4 w-32 h-4 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                    </div>
+                    
+                    <div class="flex h-full p-6 bg-slate-50/50 dark:bg-[#050505] transition-colors">
+                        <div class="w-full flex flex-col gap-4">
+                            <!-- Abstract CRM Rows -->
+                            <div class="bg-white dark:bg-brand-navy p-4 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm flex justify-between items-center">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-brand-sky text-white flex items-center justify-center font-bold">JD</div>
+                                    <div>
+                                        <div class="h-3 w-24 bg-slate-800 dark:bg-white rounded-full mb-1"></div>
+                                        <div class="text-xs text-brand-sky font-bold mt-1">Trenchless Sewer Repair</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs font-bold text-slate-400 uppercase">Est. Value</div>
+                                    <div class="font-black text-brand-navy dark:text-white">$8,500</div>
+                                </div>
+                            </div>
+                            <div class="bg-white dark:bg-brand-navy p-4 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm flex justify-between items-center opacity-80">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-brand-blue text-white flex items-center justify-center font-bold">SM</div>
+                                    <div>
+                                        <div class="h-3 w-20 bg-slate-800 dark:bg-white rounded-full mb-1"></div>
+                                        <div class="text-xs text-brand-blue font-bold mt-1">Tankless Water Heater</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs font-bold text-slate-400 uppercase">Est. Value</div>
+                                    <div class="font-black text-brand-navy dark:text-white">$4,200</div>
+                                </div>
+                            </div>
+                            <div class="bg-white dark:bg-brand-navy p-4 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm flex justify-between items-center opacity-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-700 text-white flex items-center justify-center font-bold">RW</div>
+                                    <div>
+                                        <div class="h-3 w-24 bg-slate-800 dark:bg-white rounded-full mb-1"></div>
+                                        <div class="text-xs text-slate-500 font-bold mt-1">Emergency Leak Repair</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs font-bold text-slate-400 uppercase">Est. Value</div>
+                                    <div class="font-black text-brand-navy dark:text-white">$450</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Element 1: Top Left -->
+                <div class="absolute -left-12 top-8 z-40 bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl p-4 rounded-2xl shadow-float flex items-center gap-3 border border-slate-200/50 dark:border-white/10 animate-float transition-colors" style="animation-delay: 0s;">
+                    <div class="w-10 h-10 rounded-full bg-brand-sky/10 flex items-center justify-center text-brand-sky shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div class="text-sm font-bold text-brand-navy dark:text-white leading-tight">New Lead:<br><span class="text-brand-sky">Burst Pipe Call</span></div>
+                </div>
+
+                <!-- Floating Element 2: Top Right -->
+                <div class="absolute -right-8 top-24 z-40 bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl p-4 rounded-2xl shadow-float flex items-center gap-3 border border-slate-200/50 dark:border-white/10 animate-float transition-colors" style="animation-delay: 0.7s;">
+                    <div class="w-10 h-10 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <div class="text-sm font-bold text-brand-navy dark:text-white leading-tight">Google Maps<br>#1 Ranking</div>
+                </div>
+
+                <!-- Floating Element 3: Bottom Left -->
+                <div class="absolute -left-8 bottom-24 z-40 bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl p-4 rounded-2xl shadow-float flex items-center gap-3 border border-slate-200/50 dark:border-white/10 animate-float transition-colors" style="animation-delay: 1.4s;">
+                    <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div class="text-sm font-bold text-brand-navy dark:text-white leading-tight">Average CPA<br><span class="text-green-500">Dropped 40%</span></div>
+                </div>
+
+                <!-- Floating Element 4: Bottom Right -->
+                <div class="absolute -right-8 bottom-12 z-40 bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl p-4 rounded-2xl shadow-float flex items-center gap-4 w-64 border border-slate-200/50 dark:border-white/10 animate-float transition-colors" style="animation-delay: 2.1s;">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-brand-blue/10 flex items-center justify-center text-brand-blue flex-shrink-0 shadow-sm ring-4 ring-blue-50 dark:ring-brand-blue/30">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    </div>
+                    <div>
+                        <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-0.5">Google Local Ads</div>
+                        <div class="text-sm text-brand-navy dark:text-white font-extrabold leading-tight">Google Guaranteed</div>
+                        <div class="text-xs font-bold text-brand-blue mt-1">Live & Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Comparison (Us vs Them) -->
+    <section class="py-32 px-6 bg-white dark:bg-[#0A0A0A] border-b border-slate-200 dark:border-white/5 relative z-10 transition-colors duration-500">
+        <div class="max-w-[1200px] mx-auto">
+            <div class="text-center mb-20 scroll-section">
+                <h2 class="text-brand-sky text-xs tracking-[0.2em] font-bold mb-4 uppercase">Stop Renting</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold leading-tight text-brand-navy dark:text-white transition-colors">
+                    Shared Platforms vs. Pipelines.
+                </h3>
+            </div>
+            <div class="grid md:grid-cols-2 gap-0 rounded-[2rem] overflow-hidden shadow-float border border-slate-200 dark:border-white/10 scroll-section">
+                <!-- Bad Side -->
+                <div class="bg-slate-50 dark:bg-[#111] p-10 md:p-14 transition-colors">
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-8 pb-4 border-b border-slate-200 dark:border-white/10 transition-colors">Angie's List / HomeAdvisor</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg></div>
+                            <span class="text-slate-600 dark:text-slate-400 font-medium">A homeowner requests a quote for a dripping faucet, and the lead is sold to you and 5 other local plumbers instantly.</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg></div>
+                            <span class="text-slate-600 dark:text-slate-400 font-medium">You drive 30 minutes for a dispatch just to find out you've been underbid by a one-man operation on a cheap fix.</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg></div>
+                            <span class="text-slate-600 dark:text-slate-400 font-medium">You are paying to build their brand authority, not your own plumbing company's.</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Good Side -->
+                <div class="bg-brand-navy dark:bg-[#050505] p-10 md:p-14 text-white relative overflow-hidden transition-colors">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-blue/20 to-transparent pointer-events-none"></div>
+                    <h3 class="text-2xl font-bold text-white mb-8 pb-4 border-b border-white/10 relative z-10 flex items-center gap-3">
+                        <svg class="w-6 h-6 text-brand-sky" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        AGB Plumbing Pipeline
+                    </h3>
+                    <ul class="space-y-6 relative z-10">
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                            <span class="font-medium text-slate-200">100% Exclusive leads. If they call your number, no one else is getting that information.</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                            <span class="font-medium text-slate-200">Target high-ticket water heaters and trenchless sewer keywords, avoiding price-shoppers.</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                            <span class="font-medium text-slate-200">Builds your long-term local SEO and Google Map Pack dominance.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 4 Pillars for Plumbers -->
+    <section class="py-32 px-6 bg-slate-50 dark:bg-[#050505] relative z-10 transition-colors duration-500">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-24 flex flex-col md:flex-row justify-between items-end gap-10 scroll-section">
+                <div>
+                    <h2 class="text-brand-blue text-xs tracking-[0.2em] font-bold mb-6 uppercase">The Arsenal</h2>
+                    <h3 class="text-5xl md:text-7xl font-extrabold leading-[1.05] text-brand-navy dark:text-white tracking-tight transition-colors">
+                        We Build <br><span class="text-gradient">Plumbing Engines.</span>
+                    </h3>
+                </div>
+                <p class="text-slate-500 dark:text-slate-400 text-xl font-medium max-w-md pb-3 leading-relaxed transition-colors">
+                    We deploy a 4-part ecosystem specifically calibrated to capture and close high-ticket plumbing jobs in your zip codes.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Pillar 1 -->
+                <div class="spotlight-card p-10 md:p-12 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 rounded-[2rem] transition-colors group scroll-section">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-brand-blue/10 text-brand-blue flex items-center justify-center mb-8 transition-transform group-hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </div>
+                    <h4 class="text-3xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">High-Converting 'Emergency-Ready' Websites</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Most plumbers have sites that look like digital brochures. We build hyper-fast landing pages optimized for Water Heater and Sewer repair SEO. We use advanced Schema markup to push you to the top of the Google Map Pack.</p>
+                </div>
+                
+                <!-- Pillar 2 -->
+                <div class="spotlight-card p-10 md:p-12 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 rounded-[2rem] transition-colors group scroll-section">
+                    <div class="w-16 h-16 rounded-2xl bg-sky-50 dark:bg-brand-sky/10 text-brand-sky flex items-center justify-center mb-8 transition-transform group-hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h4 class="text-3xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">Google LSA & High-Intent PPC</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">We get your business "Google Guaranteed" and run Local Service Ads where you only pay per valid phone call. We run targeted search ads strictly for high-intent keywords like "burst pipe plumber near me" and "tankless heater install."</p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="spotlight-card p-10 md:p-12 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 rounded-[2rem] transition-colors group scroll-section">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-8 transition-transform group-hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h4 class="text-3xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">Automated CRM & Missed-Call Text Back</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Burst pipes happen at 2 AM. If you miss a call while asleep or under a sink, our system instantly texts the homeowner back. Our CRM centralizes your SMS, emails, and automatically asks closed jobs for 5-star Google Reviews.</p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="spotlight-card p-10 md:p-12 bg-white dark:bg-brand-navy border border-slate-200 dark:border-white/5 rounded-[2rem] transition-colors group scroll-section">
+                    <div class="w-16 h-16 rounded-2xl bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-8 transition-transform group-hover:scale-110">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    </div>
+                    <h4 class="text-3xl font-bold mb-4 text-brand-navy dark:text-white transition-colors">Social Authority & Past Customer Reactivation</h4>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">We turn your job site photos into branded social content that builds absolute trust. When shoulder season hits, we blast your past-customer database to secure immediate water heater flushes and drain clearings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. The Case Study -->
+    <section class="py-24 px-6 bg-brand-navy text-white relative z-10 overflow-hidden border-y border-white/5">
+        <div class="absolute inset-0 bg-dot-grid opacity-20 pointer-events-none"></div>
+        <div class="max-w-[1400px] mx-auto relative z-10 grid lg:grid-cols-2 gap-16 items-center scroll-section">
+            
+            <div class="order-2 lg:order-1">
+                <h2 class="text-brand-sky text-xs tracking-[0.2em] font-bold mb-4 uppercase">Proven Results</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-6">
+                    How FlowTech Plumbing added <span class="text-brand-blue">$950k in annual revenue.</span>
+                </h3>
+                <p class="text-slate-300 text-lg font-medium leading-relaxed mb-8">
+                    FlowTech Plumbing was wasting $4,500 a month on HomeAdvisor leads. They were closing at a dismal 10% because every lead they called had already been pitched by 3 other plumbers. They were stuck doing low-margin clogs just to keep the vans moving.
+                </p>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8 backdrop-blur-md">
+                    <h4 class="text-sm font-bold text-white uppercase tracking-widest mb-4">The AGB Solution</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-slate-300 text-sm font-medium"><svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Cut the generic lead budget to zero.</li>
+                        <li class="flex items-center gap-3 text-slate-300 text-sm font-medium"><svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Launched a high-speed "Emergency Plumber" landing page.</li>
+                        <li class="flex items-center gap-3 text-slate-300 text-sm font-medium"><svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Deployed exclusive Google LSA and Search campaigns targeting $5k+ installs.</li>
+                        <li class="flex items-center gap-3 text-slate-300 text-sm font-medium"><svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Integrated Missed-Call Text Back to secure after-hours emergency calls.</li>
+                    </ul>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-full bg-slate-800 border-2 border-slate-600 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover" alt="Plumber">
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-white">"We stopped competing on price and booked our schedule out 3 weeks."</div>
+                        <div class="text-xs text-slate-400">James M. - Owner, FlowTech Plumbing</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2 grid grid-cols-2 gap-4 relative">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-sky/20 blur-[100px] rounded-full pointer-events-none"></div>
+                <div class="bg-[#050505] p-6 rounded-2xl border border-white/10 text-center shadow-lg relative z-10 flex flex-col justify-center">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Cost Per Lead</div>
+                    <div class="text-4xl font-black text-brand-blue mb-1">$35</div>
+                    <div class="text-sm font-medium text-green-500">Down from $90</div>
+                </div>
+                <div class="bg-[#050505] p-6 rounded-2xl border border-white/10 text-center shadow-lg relative z-10 flex flex-col justify-center transform translate-y-4">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Close Rate</div>
+                    <div class="text-4xl font-black text-brand-sky mb-1">35%</div>
+                    <div class="text-sm font-medium text-green-500">Up from 10%</div>
+                </div>
+                <div class="bg-[#050505] p-6 rounded-2xl border border-white/10 text-center shadow-lg relative z-10 flex flex-col justify-center col-span-2 mt-4">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Average Ticket Size Increase</div>
+                    <div class="text-5xl font-black text-white mb-2">+$3,000</div>
+                    <div class="text-sm font-medium text-slate-400">Shifted focus to Tankless Heaters and Repipes</div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ROI Calculator (Calibrated for Plumbing) -->
+    <section class="py-32 px-6 bg-white dark:bg-brand-navy border-y border-slate-100 dark:border-white/5 relative z-10 transition-colors duration-500">
+        <div class="max-w-[1200px] mx-auto scroll-section">
+            <div class="text-center mb-16">
+                <h2 class="text-brand-sky text-xs tracking-[0.2em] font-bold mb-4 uppercase">Prove It To Yourself</h2>
+                <h3 class="text-4xl md:text-5xl font-extrabold leading-tight text-brand-navy dark:text-white transition-colors">
+                    Plumbing ROI Calculator
+                </h3>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center bg-slate-50 dark:bg-[#050505] p-8 md:p-12 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-sm transition-colors">
+                <!-- Inputs -->
+                <div class="space-y-10">
+                    <div>
+                        <div class="flex justify-between items-end mb-4">
+                            <label class="font-bold text-slate-700 dark:text-slate-300">Exclusive Monthly Leads</label>
+                            <div class="text-2xl font-black text-brand-blue" id="val-leads">50</div>
+                        </div>
+                        <input type="range" id="slider-leads" min="20" max="300" step="10" value="50" oninput="calcROI()">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-end mb-4">
+                            <label class="font-bold text-slate-700 dark:text-slate-300">Average Blended Ticket Size ($)</label>
+                            <div class="text-2xl font-black text-brand-blue" id="val-ticket">$3,500</div>
+                        </div>
+                        <input type="range" id="slider-ticket" min="500" max="15000" step="500" value="3500" oninput="calcROI()">
+                    </div>
+                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 transition-colors">
+                        *Projection assumes a conservative 25% close rate on exclusive, high-intent plumbing leads (blended mix of high-ticket installs and emergency repairs).
+                    </div>
+                </div>
+
+                <!-- Outputs -->
+                <div class="bg-brand-navy p-10 rounded-[2rem] text-white shadow-float relative overflow-hidden">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-brand-sky/30 rounded-full blur-[80px]"></div>
+                    
+                    <div class="space-y-8 relative z-10">
+                        <div>
+                            <div class="text-slate-400 text-sm font-bold uppercase tracking-wider mb-1">Estimated Jobs Booked</div>
+                            <div class="text-3xl font-bold opacity-50" id="out-current">12.5 / mo</div>
+                        </div>
+                        <div class="h-px w-full bg-white/10"></div>
+                        <div>
+                            <div class="text-brand-sky text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-sky animate-pulse"></span> Projected Monthly Gross</div>
+                            <div class="text-5xl md:text-6xl font-black text-white tracking-tight shadow-glow-sky" id="out-projected">$43,750</div>
+                        </div>
+                        <div class="pt-4">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 font-bold text-sm border border-green-500/30">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                Highly Predictable Pipeline
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. The "Godfather" Offer -->
+    <section class="py-24 px-6 bg-brand-sky relative z-10 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+        <div class="max-w-[1000px] mx-auto relative z-10 text-center text-white scroll-section">
+            <h2 class="text-sm tracking-[0.2em] font-bold mb-4 uppercase text-sky-100">The Ironclad Guarantee</h2>
+            <h3 class="text-4xl md:text-6xl font-extrabold mb-8 leading-[1.05] tracking-tight drop-shadow-md">
+                The 30-Day Exclusive <br>Territory Guarantee.
+            </h3>
+            <p class="text-xl font-medium leading-relaxed mb-12 max-w-2xl mx-auto text-sky-50">
+                We only partner with one plumbing contractor per city. If we partner with you, we actively turn away your competitors. <br><br>
+                <strong>If we do not double your qualified inbound calls within the first 30 days, you don't pay our retainer. We work for free until we do.</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- 7. The Form -->
+    <section id="audit" class="py-32 px-6 bg-brand-navy relative z-10 overflow-hidden">
+        <div class="absolute inset-0 bg-dot-grid opacity-20 dark:opacity-10 pointer-events-none transition-opacity"></div>
+        <div class="absolute -left-[10%] top-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-[1400px] mx-auto relative z-10 flex flex-col lg:flex-row gap-20 items-center">
+            <div class="lg:w-1/2 scroll-section">
+                <h2 class="text-5xl md:text-7xl font-extrabold mb-8 leading-[1.05] text-white tracking-tight">
+                    Lock In Your <br><span class="text-brand-sky">Territory.</span>
+                </h2>
+                <p class="text-slate-400 text-xl font-medium max-w-md leading-relaxed mb-10">
+                    Check if your city is still available. Provide your details below for a free market gap analysis and competitor blueprint.
+                </p>
+                <div class="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">
+                    <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Secure 256-Bit Transmission
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 w-full scroll-section">
+                <div class="bg-white dark:bg-[#050505] p-10 md:p-14 rounded-[2.5rem] shadow-float relative overflow-hidden transition-colors border border-transparent dark:border-white/10">
+                    <form id="growthForm" class="relative z-10" onsubmit="event.preventDefault(); submitForm();">
+                        <!-- Progress -->
+                        <div class="flex gap-3 mb-12">
+                            <div id="prog1" class="h-2 flex-1 bg-brand-sky rounded-full transition-colors duration-500 shadow-glow-sky"></div>
+                            <div id="prog2" class="h-2 flex-1 bg-slate-100 dark:bg-slate-800 rounded-full transition-colors duration-500"></div>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div id="step1" class="transition-all duration-500">
+                            <h3 class="text-3xl font-bold text-brand-navy dark:text-white mb-10 tracking-tight transition-colors">Tell us about your business.</h3>
+                            <div class="space-y-6">
+                                <div class="input-group">
+                                    <input type="text" id="bName" required class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="bName" class="float-label">Plumbing Company Name</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="url" id="bUrl" required class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="bUrl" class="float-label">Website URL (https://)</label>
+                                </div>
+                                <div class="input-group">
+                                    <select required class="float-input text-slate-700 dark:text-slate-300 dark:bg-brand-navy dark:border-white/10 transition-colors" style="padding-top: 1rem;">
+                                        <option value="" disabled selected class="hidden">Current Monthly Revenue</option>
+                                        <option value="under50k">Under $50k / mo</option>
+                                        <option value="50k-100k">$50k - $100k / mo</option>
+                                        <option value="100k-250k">$100k - $250k / mo</option>
+                                        <option value="over250k">$250k+ / mo</option>
+                                    </select>
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-12">
+                                <button type="button" onclick="nextStep()" class="w-full inline-flex items-center justify-center px-8 py-5 font-bold text-white bg-brand-navy dark:bg-brand-blue rounded-2xl hover:bg-slate-800 dark:hover:bg-blue-600 transition-colors text-lg group">
+                                    Continue to Step 2 <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="step2" class="hidden-step transition-all duration-500">
+                            <h3 class="text-3xl font-bold text-brand-navy dark:text-white mb-10 tracking-tight transition-colors">Where should we send the audit?</h3>
+                            <div class="space-y-6">
+                                <div class="input-group">
+                                    <input type="text" id="reqName" class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="reqName" class="float-label">Your Full Name</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="tel" id="reqPhone" class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="reqPhone" class="float-label">Direct Phone Number</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="email" id="reqEmail" class="float-input dark:bg-brand-navy dark:border-white/10 dark:text-white transition-colors" placeholder=" ">
+                                    <label for="reqEmail" class="float-label">Business Email</label>
+                                </div>
+                            </div>
+                            <div class="mt-12 flex flex-col sm:flex-row gap-4">
+                                <button type="button" onclick="prevStep()" class="px-8 py-5 font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 dark:text-slate-400 rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                    Back
+                                </button>
+                                <button type="submit" class="flex-1 group relative inline-flex items-center justify-center px-8 py-5 font-bold text-lg text-white bg-brand-sky overflow-hidden transition-all rounded-2xl shadow-glow-sky hover:-translate-y-1">
+                                    <span class="relative z-10 transition-colors duration-300">Request Free Audit</span>
+                                    <div class="absolute inset-0 bg-brand-skyHover transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0"></div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Success State -->
+                        <div id="successState" class="hidden-step text-center py-16">
+                            <div class="w-24 h-24 bg-green-50 dark:bg-green-900/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8 border-[8px] border-green-50/50 dark:border-green-900/30 transition-colors">
+                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h3 class="text-4xl font-extrabold mb-4 text-brand-navy dark:text-white tracking-tight transition-colors">Audit Requested!</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-lg font-medium transition-colors">Our team is analyzing your local market. We will be in touch shortly to confirm territory availability.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white dark:bg-[#050505] border-t border-slate-100 dark:border-white/5 relative z-10 transition-colors duration-500">
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-3xl font-extrabold font-display tracking-tight text-brand-navy dark:text-white transition-colors">
+                AGB<span class="text-brand-blue">.</span>
+            </div>
+            <div class="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase flex flex-col md:flex-row gap-4 md:gap-16 text-center md:text-left">
+                <span>&copy; 2026 AGB DIGITAL SOLUTIONS</span>
+                <span>BAHAMAS // USA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Dark Mode Engine ---
+        const html = document.getElementById('html-root');
+        function toggleTheme() { html.classList.toggle('dark'); }
+
+        // --- Lenis Smooth Scrolling ---
+        const lenis = new Lenis({ duration: 1.2, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        // --- Navbar Glass Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.remove('border-transparent', 'py-5');
+            } else {
+                nav.classList.remove('bg-white/80', 'dark:bg-[#050505]/80', 'backdrop-blur-xl', 'border-slate-200', 'dark:border-white/10', 'shadow-sm', 'py-4');
+                nav.classList.add('border-transparent', 'py-5');
+            }
+        });
+
+        // --- ROI Calculator Logic ---
+        function formatCurrency(num) { return '$' + num.toLocaleString(); }
+        function calcROI() {
+            const leads = parseInt(document.getElementById('slider-leads').value);
+            const ticket = parseInt(document.getElementById('slider-ticket').value);
+            
+            document.getElementById('val-leads').innerText = leads;
+            document.getElementById('val-ticket').innerText = formatCurrency(ticket);
+            
+            // Assume 25% close rate on exclusive leads
+            const jobsSold = leads * 0.25;
+            const newRev = jobsSold * ticket;
+
+            document.getElementById('out-current').innerText = jobsSold.toFixed(1) + " / mo";
+            document.getElementById('out-projected').innerText = formatCurrency(newRev);
+        }
+        calcROI(); // Init
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(".hero-elem", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "expo.out", delay: 0.2 });
+        gsap.to("#floating-web", { y: -15, rotationX: 2, rotationY: -8, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+
+        // Scroll reveals for sections
+        const sections = gsap.utils.toArray('.scroll-section');
+        sections.forEach((section) => {
+            gsap.fromTo(section, 
+                { y: 50, opacity: 0 },
+                { scrollTrigger: { trigger: section, start: "top 85%" }, y: 0, opacity: 1, duration: 1.2, ease: "expo.out" }
+            );
+        });
+
+        // Spotlight Hover
+        document.querySelectorAll("[id^='bento-container']").forEach(container => {
+            container.onmousemove = e => {
+                for(const card of container.getElementsByClassName("spotlight-card")) {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                };
+            }
+        });
+
+        // --- Form Logic ---
+        const step1 = document.getElementById('step1'); const step2 = document.getElementById('step2'); const success = document.getElementById('successState');
+        const reqName = document.getElementById('reqName'); const reqPhone = document.getElementById('reqPhone'); const reqEmail = document.getElementById('reqEmail');
+        const prog2 = document.getElementById('prog2');
+
+        function nextStep() {
+            let isValid = true;
+            step1.querySelectorAll('input, select').forEach(i => { if(!i.checkValidity()) { i.reportValidity(); isValid = false; } });
+            if(isValid) {
+                reqName.required = true; reqPhone.required = true; reqEmail.required = true;
+                prog2.classList.replace('bg-slate-100', 'bg-brand-sky'); prog2.classList.replace('dark:bg-slate-800', 'bg-brand-sky'); prog2.classList.add('shadow-glow-sky');
+                gsap.to(step1, { opacity: 0, x: -40, duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                    step1.classList.add('hidden-step'); step2.classList.remove('hidden-step');
+                    gsap.fromTo(step2, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" });
+                }});
+            }
+        }
+
+        function prevStep() {
+            reqName.required = false; reqPhone.required = false; reqEmail.required = false;
+            prog2.classList.replace('bg-brand-sky', 'bg-slate-100'); prog2.classList.replace('bg-brand-sky', 'dark:bg-slate-800'); prog2.classList.remove('shadow-glow-sky');
+            gsap.to(step2, { opacity: 0, x: 40, duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                step2.classList.add('hidden-step'); step1.classList.remove('hidden-step');
+                gsap.fromTo(step1, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" });
+            }});
+        }
+
+        function submitForm() {
+            gsap.to(step2, { opacity: 0, scale: 0.95, duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                step2.classList.add('hidden-step'); document.querySelector('.flex.gap-3.mb-12').style.display = 'none'; success.classList.remove('hidden-step');
+                gsap.fromTo(success, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" });
+            }});
+        }
+    </script>
+</body>
+</html>
